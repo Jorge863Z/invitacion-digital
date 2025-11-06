@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación Digital - Evento Especial</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Lucide Icons (Iconos) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+        
+        :root {
+            --primary-color: #A32D50; /* Vino/Borgoña */
+            --secondary-color: #F8F4E3; /* Beige Claro */
+            --accent-color: #D9A440; /* Oro */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--secondary-color);
+            color: #333;
+        }
+
+        .header-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #852243;
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent-color);
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #c99333;
+        }
+
+        /* Estilo para el modo admin */
+        .admin-view {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+
+    <!-- Mensaje Toast (No usar alert()) -->
+    <div id="toast-message" class="fixed top-5 z-50 p-4 rounded-lg shadow-xl text-white transition-opacity duration-300 opacity-0 hidden" role="alert"></div>
+
+    <!-- Contenedor Principal (Vista Invitado/Admin) -->
+    <main id="app-container" class="w-full max-w-4xl space-y-8 pb-12">
+
+        <!-- Botón de Acceso Admin (Flotante y discreto) -->
+        <button id="admin-login-btn" class="fixed bottom-4 right-4 bg-gray-700 text-white p-3 rounded-full shadow-lg z-20 hover:bg-gray-900 transition-colors">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+        </button>
+
+        <!-- MODO INVITADO -->
+        <div id="guest-view" class="space-y-8">
+            
+            <!-- SECCIÓN 1: Bienvenida y Título del Evento -->
+            <section class="text-center py-10 bg-white card shadow-2xl">
+                <h1 class="header-font text-5xl md:text-7xl font-bold text-gray-800" id="event-title">
+                    ¡Nuestro Gran Día!
+                </h1>
+                <p class="mt-4 text-xl text-gray-600">
+                    <span id="names-placeholder">Nombre Novio & Nombre Novia</span>
+                </p>
+                <p class="text-lg mt-2 text-gray-500">
+                    Te esperamos para celebrar nuestro amor.
+                </p>
+            </section>
+
+            <!-- SECCIÓN 2: Cuenta Regresiva -->
+            <section class="card text-center border-b-4 border-t-4 border-accent-color p-6">
+                <h2 class="text-2xl font-semibold mb-4 text-primary-color flex items-center justify-center">
+                    <i data-lucide="clock" class="w-6 h-6 mr-2"></i> Cuenta Regresiva
+                </h2>
+                <div id="countdown" class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-primary-color font-mono">
+                    <!-- Los divs de tiempo serán llenados por JavaScript -->
+                </div>
+            </section>
+
+            <!-- SECCIÓN 3: Galería de Fotos (Mock) -->
+            <section class="space-y-4">
+                <h2 class="header-font text-3xl font-bold text-center text-primary-color">Nuestras Fotos</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <img src="https://placehold.co/400x300/A32D50/F8F4E3?text=Foto+1" onerror="this.src='https://placehold.co/400x300/A32D50/F8F4E3?text=Foto+1'" alt="Foto 1 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                    <img src="https://placehold.co/400x300/D9A440/333?text=Foto+2" onerror="this.src='https://placehold.co/400x300/D9A440/333?text=Foto+2'" alt="Foto 2 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                    <img src="https://placehold.co/400x300/852243/FFF?text=Foto+3" onerror="this.src='https://placehold.co/400x300/852243/FFF?text=Foto+3'" alt="Foto 3 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
+                    <img src="https://placehold.co/400x300/333/F8F4E3?text=Foto+4" onerror="this.src='https://placehold.co/400x300/333/F8F4E3?text=Foto+4'" alt="Foto 4 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
+                </div>
+            </section>
+
+            <!-- SECCIÓN 4: Detalles del Invitado y RSVP -->
+            <section class="card p-6">
+                <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Tu Invitación</h2>
+                
+                <div id="guest-details-loading" class="text-center text-gray-500">Cargando detalles de tu invitación...</div>
+
+                <div id="guest-details" class="hidden space-y-4">
+                    <div class="text-center p-4 bg-secondary-color rounded-lg border border-accent-color">
+                        <p class="text-lg font-semibold text-gray-700">¡Hola, <span id="guest-name-display" class="text-primary-color font-bold">Invitado</span>!</p>
+                        <p class="text-md mt-2">Te esperamos en la **Mesa <span id="guest-table-display" class="font-bold text-primary-color">#</span>**.</p>
+                        <p class="text-md">Puedes confirmar la asistencia de hasta **<span id="guest-count-display" class="font-bold text-primary-color">1</span>** persona(s).</p>
+                    </div>
+
+                    <p id="rsvp-status-message" class="text-center text-xl font-bold mt-4"></p>
+
+                    <div id="rsvp-actions" class="mt-6 space-y-4">
+                        <h3 class="text-xl font-semibold mb-4 text-center">Confirma tu Asistencia</h3>
+                        
+                        <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
+                            <!-- Botón 1: Confirmo Asistencia (Firestore) -->
+                            <button id="btn-confirm-attendance" class="btn-primary w-full py-3 rounded-xl flex items-center justify-center font-bold">
+                                <i data-lucide="check-circle" class="w-5 h-5 mr-2"></i> Confirmo Asistencia
+                            </button>
+
+                            <!-- Botón 2: No Asistiré (Firestore) -->
+                            <button id="btn-not-attending" class="btn-secondary w-full py-3 rounded-xl flex items-center justify-center font-bold">
+                                <i data-lucide="x-circle" class="w-5 h-5 mr-2"></i> No Asistiré
+                            </button>
+                        </div>
+                        
+                        <!-- Botón 3: WhatsApp (Muestra modal) -->
+                        <button id="btn-whatsapp-prompt" class="bg-green-500 hover:bg-green-600 text-white w-full py-3 rounded-xl flex items-center justify-center font-bold transition-colors">
+                            <i data-lucide="send" class="w-5 h-5 mr-2"></i> Enviar WhatsApp al Anfitrión
+                        </button>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 5: Regalos (Mesa de Regalos) -->
+            <section class="card p-6">
+                <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Mesa de Regalos</h2>
+                
+                <p class="text-center text-gray-600 mb-6">Tu presencia es nuestro mejor regalo, pero si deseas hacernos un obsequio, aquí están las opciones.</p>
+
+                <div id="gift-actions" class="space-y-4">
+                    <!-- Opción 1: Transferencia -->
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <p class="text-lg font-semibold text-primary-color">Transferencia Bancaria (Opción Digital)</p>
+                        <p class="text-sm mt-1">**Banco:** BANCOMER</p>
+                        <p class="text-sm">**Clabe:** 012345678901234567</p>
+                        <p class="text-sm">**Titular:** [Nombre de los Novios]</p>
+                        <button id="btn-transfer-gift" class="btn-primary mt-3 py-2 px-4 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">
+                            <i data-lucide="credit-card" class="w-4 h-4 mr-1 inline-block"></i> Deseo Transferir mi Regalo
+                        </button>
+                    </div>
+
+                    <!-- Opción 2: Regalo Físico -->
+                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <p class="text-lg font-semibold text-primary-color">Regalo Físico</p>
+                        <p class="text-sm mt-1">Tendremos un buzón en la entrada del evento.</p>
+                        <button id="btn-physical-gift" class="btn-secondary mt-3 py-2 px-4 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">
+                            <i data-lucide="package" class="w-4 h-4 mr-1 inline-block"></i> Regalo Físico
+                        </button>
+                    </div>
+                    <p id="gift-status-message" class="text-center text-md font-bold mt-4"></p>
+                </div>
+            </section>
+        </div>
+        
+        <!-- MODO ADMINISTRADOR -->
+        <div id="admin-view" class="hidden space-y-8 admin-view p-6 rounded-xl">
+            <h2 class="header-font text-4xl font-bold text-center text-accent-color">Panel de Administración</h2>
+            <div id="admin-controls" class="card p-6 space-y-4 bg-gray-800 text-white">
+                <h3 class="text-2xl font-semibold border-b pb-2 border-gray-700 text-accent-color">Añadir/Editar Invitado</h3>
+                <form id="add-guest-form" class="space-y-3">
+                    <input type="text" id="input-guest-id" placeholder="ID del Invitado (Ej: maria_perez_123)" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+                    <input type="text" id="input-guest-name" placeholder="Nombre del Invitado" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+                    <input type="number" id="input-guest-table" placeholder="Mesa Asignada" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+                    <input type="number" id="input-guests-allowed" placeholder="Invitados Permitidos (total)" class="w-full p-2 rounded bg-gray-700 border border-gray-600" required>
+                    <button type="submit" class="btn-primary w-full py-2 rounded-lg font-bold">Guardar Invitado (Crea o Actualiza)</button>
+                </form>
+            </div>
+
+            <div class="card p-6 bg-gray-800 text-white">
+                <h3 class="text-2xl font-semibold mb-4 text-accent-color">Estado de Confirmaciones (RSVP)</h3>
+                <div id="guest-list-container" class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-700 text-sm">
+                        <thead class="bg-gray-700">
+                            <tr>
+                                <th class="p-3 text-left font-semibold text-gray-300">Nombre</th>
+                                <th class="p-3 text-left font-semibold text-gray-300">Mesa</th>
+                                <th class="p-3 text-left font-semibold text-gray-300">Confirma</th>
+                                <th class="p-3 text-left font-semibold text-gray-300">Teléfono</th>
+                                <th class="p-3 text-left font-semibold text-gray-300">Regalo</th>
+                                <th class="p-3 text-left font-semibold text-gray-300">Acciones</th> <!-- Nueva columna -->
+                            </tr>
+                        </thead>
+                        <tbody id="admin-guest-list" class="divide-y divide-gray-700">
+                            <!-- Lista de invitados cargada por JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <p id="total-confirmed" class="mt-4 text-lg font-bold text-right text-green-400">Total Confirmados: 0</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para Teléfono/WhatsApp -->
+    <div id="whatsapp-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="card w-full max-w-sm p-6 space-y-4">
+            <h3 class="text-xl font-bold text-primary-color">Ingresa tu Teléfono</h3>
+            <p class="text-sm text-gray-600">Opcional: Esto nos ayuda a contactarte en caso de emergencia. Si confirmas, también te llevaremos a WhatsApp para que envíes el mensaje de confirmación.</p>
+            <input type="tel" id="input-phone-number" placeholder="Ej: 521XXXXXXXXX (Código de país + número)" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-primary-color focus:border-primary-color">
+            <div class="flex justify-end space-x-3">
+                <button id="modal-cancel-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded-lg transition-colors">Cancelar</button>
+                <button id="modal-confirm-whatsapp-btn" class="btn-primary py-2 px-4 rounded-lg font-bold">Enviar y Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FIREBASE AND JAVASCRIPT LOGIC -->
+    <script type="module">
+        // Importaciones de Firebase (necesitas la versión 11.6.1)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // IMPORTANTE: Se añade 'deleteDoc' para la funcionalidad de eliminación
+        import { getFirestore, doc, setDoc, onSnapshot, collection, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // ==============================================================================
+        //  CONFIGURACIÓN DE FIREBASE PARA USO LOCAL EN VISUAL STUDIO CODE (VS CODE)
+        // ==============================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCJfiyLFG0u2lid-DsPjkMX19toPLM45BY",
+            authDomain: "invitaciones-digitales-c14a8.firebaseapp.com",
+            projectId: "invitaciones-digitales-c14a8",
+            storageBucket: "invitaciones-digitales-c14a8.firebasestorage.app",
+            messagingSenderId: "661594120389",
+            appId: "1:661594120389:web:c92f3afd853d7ddd0a50ac",
+            measurementId: "G-9T9Q0HBNKR"
+        };
+        // ==============================================================================
+        
+        // Usamos el projectId como base para el appId en local.
+        const appId = firebaseConfig.projectId || 'default-app-id';
+        
+        setLogLevel('Debug');
+        
+        let app, db, auth, currentUserId;
+        let currentGuestId = null;
+        let currentGuestData = null;
+        let isAdminMode = false;
+
+        // --- CONSTANTES DEL EVENTO ---
+        const EVENT_DATE = new Date("December 31, 2025 20:00:00").getTime(); 
+        const ADMIN_PASSCODE = "12345"; 
+        const HOST_PHONE_NUMBER = "5215512345678"; // Número de WhatsApp del anfitrión
+
+        // Ruta de Firestore (Usando la estructura /artifacts/{appId}/public/data/invitations)
+        const GUESTS_COLLECTION_PATH = `artifacts/${appId}/public/data/invitations`;
+
+        // --- UTILIDADES DE UI (SHOW TOAST) ---
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast-message');
+            toast.textContent = message;
+            
+            toast.classList.remove('bg-green-500', 'bg-red-500', 'bg-blue-500', 'hidden', 'opacity-0');
+            
+            if (type === 'success') {
+                toast.classList.add('bg-green-500');
+            } else if (type === 'error') {
+                toast.classList.add('bg-red-500');
+            } else {
+                toast.classList.add('bg-blue-500');
+            }
+
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 300);
+            }, 5000);
+        }
+
+        function toggleAdminView(enable) {
+            const guestView = document.getElementById('guest-view');
+            const adminView = document.getElementById('admin-view');
+            const container = document.getElementById('app-container');
+
+            isAdminMode = enable;
+
+            if (enable) {
+                guestView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                container.classList.add('admin-view', 'max-w-7xl');
+                document.getElementById('admin-login-btn').classList.add('hidden');
+                
+                if (db) {
+                    listenToAllGuests();
+                }
+            } else {
+                guestView.classList.remove('hidden');
+                adminView.classList.add('hidden');
+                container.classList.remove('admin-view', 'max-w-7xl');
+                document.getElementById('admin-login-btn').classList.remove('hidden');
+            }
+        }
+
+        // --- FIREBASE Y AUTENTICACIÓN ---
+        async function initializeFirebase() {
+            // Verificar que la configuración no sea la de ejemplo
+            if (!firebaseConfig.apiKey || firebaseConfig.apiKey.includes('TU_API_KEY')) {
+                 showToast("Error: Configuración de Firebase incompleta. ¡Revisa el código!", 'error');
+                 document.getElementById('guest-details-loading').textContent = "ERROR: Configuración de Firebase incompleta o inválida. Revisa tu archivo.";
+                 return;
+            }
+            
+            try {
+                console.log("Initializing Firebase with config (Project ID):", firebaseConfig.projectId);
+
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                // Autenticación Anónima
+                await signInAnonymously(auth);
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        currentUserId = user.uid;
+                        // 1. Obtener GuestId de la URL
+                        const urlParams = new URLSearchParams(window.location.search);
+                        currentGuestId = urlParams.get('guestId');
+
+                        // 2. Ejecutar lógica principal (Invitado o Admin)
+                        if (isAdminMode) {
+                            listenToAllGuests();
+                        } else if (currentGuestId) {
+                            listenToGuestDetails(currentGuestId);
+                        } else {
+                            // No hay ID de invitado y no es admin. Mostrar mensaje genérico.
+                            document.getElementById('guest-details-loading').textContent = "Por favor, utiliza el enlace que se te proporcionó para ver tu invitación personalizada (Ej: ?guestId=invitado_1).";
+                            document.getElementById('guest-details').classList.add('hidden');
+                        }
+
+                    } else {
+                        console.error("No se pudo autenticar al usuario.");
+                        showToast("Error de autenticación.", 'error');
+                    }
+                });
+
+            } catch (error) {
+                showToast(`Error al inicializar Firebase: ${error.message}`, 'error');
+                console.error("Firebase Initialization Error:", error);
+            }
+        }
+
+        // --- GESTIÓN DE INVITADO (LECTURA) ---
+        function listenToGuestDetails(guestId) {
+            const guestRef = doc(db, GUESTS_COLLECTION_PATH, guestId);
+            document.getElementById('guest-details-loading').classList.remove('hidden');
+            
+            onSnapshot(guestRef, (docSnap) => {
+                document.getElementById('guest-details-loading').classList.add('hidden');
+                
+                if (docSnap.exists()) {
+                    currentGuestData = docSnap.data();
+                    document.getElementById('guest-details').classList.remove('hidden');
+                    renderGuestView(currentGuestData);
+                } else {
+                    document.getElementById('guest-details-loading').textContent = `Invitado con ID '${guestId}' no encontrado.`;
+                    document.getElementById('guest-details').classList.add('hidden');
+                }
+            }, (error) => {
+                showToast(`Error al leer detalles del invitado: ${error.message}`, 'error');
+                console.error("Firestore Guest Snapshot Error:", error);
+            });
+        }
+
+        function renderGuestView(data) {
+            // Actualizar detalles del invitado
+            document.getElementById('guest-name-display').textContent = data.name || 'Invitado(a) Especial';
+            document.getElementById('guest-table-display').textContent = data.table || 'N/A';
+            document.getElementById('guest-count-display').textContent = data.guestsAllowed || '1';
+
+            // Actualizar estado de RSVP
+            const rsvpMessage = document.getElementById('rsvp-status-message');
+            const giftMessage = document.getElementById('gift-status-message');
+            const rsvpActions = document.getElementById('rsvp-actions');
+            const giftActions = document.getElementById('gift-actions');
+            
+            let rsvpStatus = data.rsvpStatus || 'Pending';
+            let giftDecision = data.giftDecision || 'Pending';
+
+            if (rsvpStatus === 'Confirmed') {
+                rsvpMessage.textContent = '¡Tu asistencia ha sido confirmada! ¡Gracias!';
+                rsvpMessage.classList.remove('text-red-500', 'text-gray-500');
+                rsvpMessage.classList.add('text-green-600');
+                rsvpActions.classList.add('opacity-50', 'pointer-events-none');
+            } else if (rsvpStatus === 'Not Attending') {
+                rsvpMessage.textContent = 'Lamentamos que no puedas asistir. ¡Gracias por avisarnos!';
+                rsvpMessage.classList.remove('text-green-600', 'text-gray-500');
+                rsvpMessage.classList.add('text-red-500');
+                rsvpActions.classList.add('opacity-50', 'pointer-events-none');
+            } else {
+                rsvpMessage.textContent = 'Por favor, confirma tu asistencia.';
+                rsvpMessage.classList.remove('text-green-600', 'text-red-500');
+                rsvpMessage.classList.add('text-gray-500');
+                rsvpActions.classList.remove('opacity-50', 'pointer-events-none');
+            }
+            
+            // Actualizar estado de regalo
+            if (giftDecision !== 'Pending') {
+                giftMessage.textContent = `Tu decisión de regalo es: ${giftDecision === 'Transfer' ? 'Transferencia' : 'Físico'}.`;
+                giftMessage.classList.add('text-primary-color');
+                giftActions.classList.add('opacity-50', 'pointer-events-none');
+            } else {
+                giftMessage.textContent = '';
+                giftActions.classList.remove('opacity-50', 'pointer-events-none');
+            }
+
+            // Ocultar acciones si ya respondió
+            if (rsvpStatus !== 'Pending') {
+                rsvpActions.classList.add('hidden');
+            } else {
+                rsvpActions.classList.remove('hidden');
+            }
+        }
+
+        // --- GESTIÓN DE INVITADO (ESCRITURA) ---
+        async function updateRsvp(status, phone = '') {
+            if (!currentGuestId || !db) {
+                showToast("Error: Invitación no válida o Firebase no inicializado.", 'error');
+                return;
+            }
+
+            try {
+                const guestRef = doc(db, GUESTS_COLLECTION_PATH, currentGuestId);
+                const updateData = {
+                    rsvpStatus: status,
+                    rsvpDate: new Date(),
+                    ...(phone && { guestPhone: phone }) 
+                };
+
+                await setDoc(guestRef, updateData, { merge: true });
+                showToast(`Estado de asistencia actualizado a: ${status === 'Confirmed' ? 'Confirmado' : 'No Asistirá'}.`, 'success');
+
+                // Si confirma por WhatsApp, abrir el link
+                if (status === 'Confirmed' && phone) {
+                    const name = currentGuestData?.name || 'Invitado(a) Especial';
+                    const message = encodeURIComponent(`Hola, confirmo mi asistencia para el evento. Mi nombre es ${name} y seremos ${currentGuestData?.guestsAllowed || 1} persona(s). ¡Nos vemos pronto!`);
+                    window.open(`https://wa.me/${HOST_PHONE_NUMBER}?text=${message}`, '_blank');
+                }
+
+            } catch (error) {
+                showToast(`Error al actualizar RSVP: ${error.message}`, 'error');
+                console.error("RSVP Update Error:", error);
+            }
+        }
+
+        async function updateGiftDecision(decision) {
+            if (!currentGuestId || !db) {
+                showToast("Error: Invitación no válida o Firebase no inicializado.", 'error');
+                return;
+            }
+            
+            // Re-chequear que no haya confirmado ya
+            if (currentGuestData?.giftDecision && currentGuestData.giftDecision !== 'Pending') {
+                showToast(`Ya has seleccionado la opción: ${currentGuestData.giftDecision}.`, 'error');
+                return;
+            }
+
+            try {
+                const guestRef = doc(db, GUESTS_COLLECTION_PATH, currentGuestId);
+                await setDoc(guestRef, { giftDecision: decision }, { merge: true });
+                showToast(`Decisión de regalo guardada: ${decision === 'Transfer' ? 'Transferencia' : 'Físico'}.`, 'success');
+            } catch (error) {
+                showToast(`Error al guardar decisión de regalo: ${error.message}`, 'error');
+                console.error("Gift Decision Update Error:", error);
+            }
+        }
+        
+        // --- FUNCIÓN PARA ELIMINAR INVITADO ---
+        async function deleteGuest(guestId) {
+            // Reemplaza window.confirm() con un modal de confirmación en un entorno real
+            if (!confirm(`¿Estás seguro de que deseas eliminar al invitado con ID: ${guestId}?`)) {
+                return; // Si el administrador cancela, salimos
+            }
+
+            if (!db) {
+                showToast("Error: Firebase no inicializado.", 'error');
+                return;
+            }
+
+            try {
+                const guestRef = doc(db, GUESTS_COLLECTION_PATH, guestId);
+                await deleteDoc(guestRef);
+                showToast(`Invitado con ID '${guestId}' eliminado con éxito.`, 'success');
+            } catch (error) {
+                showToast(`Error al eliminar invitado: ${error.message}`, 'error');
+                console.error("Delete Guest Error:", error);
+            }
+        }
+
+
+        // --- LÓGICA DE ADMINISTRADOR ---
+        function listenToAllGuests() {
+            if (!db) return;
+
+            const q = collection(db, GUESTS_COLLECTION_PATH);
+            
+            onSnapshot(q, (snapshot) => {
+                let totalConfirmed = 0;
+                const guestListBody = document.getElementById('admin-guest-list');
+                guestListBody.innerHTML = ''; 
+
+                snapshot.docs.forEach(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    const rsvpStatus = data.rsvpStatus || 'Pending';
+                    const giftDecision = data.giftDecision || 'Pending';
+
+                    if (rsvpStatus === 'Confirmed') {
+                        totalConfirmed += (data.guestsAllowed || 1);
+                    }
+                    
+                    const row = guestListBody.insertRow();
+                    row.className = 'hover:bg-gray-700 transition-colors';
+
+                    // Estilo de estado RSVP
+                    let statusColor = 'text-yellow-400';
+                    if (rsvpStatus === 'Confirmed') statusColor = 'text-green-400';
+                    if (rsvpStatus === 'Not Attending') statusColor = 'text-red-400';
+                    
+                    // Estilo de estado Regalo
+                    let giftColor = 'text-gray-400';
+                    if (giftDecision === 'Transfer') giftColor = 'text-blue-400';
+                    if (giftDecision === 'Physical') giftColor = 'text-purple-400';
+
+                    row.innerHTML = `
+                        <td class="p-3 font-semibold">${data.name || id}</td>
+                        <td class="p-3">${data.table || 'N/A'}</td>
+                        <td class="p-3 ${statusColor} font-bold">${rsvpStatus} (${data.guestsAllowed || 1})</td>
+                        <td class="p-3">${data.guestPhone || 'No Proporcionado'}</td>
+                        <td class="p-3 ${giftColor}">${giftDecision}</td>
+                        <td class="p-3">
+                            <button onclick="window.deleteGuest('${id}')" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full leading-none transition-colors">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </td>
+                    `;
+                });
+                
+                // Necesitamos re-crear los íconos de Lucide que acabamos de agregar.
+                lucide.createIcons();
+
+                document.getElementById('total-confirmed').textContent = `Total Confirmados (Personas): ${totalConfirmed}`;
+
+            }, (error) => {
+                showToast(`Error al leer la lista de invitados: ${error.message}`, 'error');
+                console.error("Admin Guest List Error:", error);
+            });
+        }
+
+        // Se usa window.deleteGuest para que la función sea accesible desde el HTML generado dinámicamente
+        window.deleteGuest = deleteGuest; 
+
+        document.getElementById('add-guest-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const guestId = document.getElementById('input-guest-id').value.trim();
+            const name = document.getElementById('input-guest-name').value.trim();
+            const table = parseInt(document.getElementById('input-guest-table').value, 10);
+            const guestsAllowed = parseInt(document.getElementById('input-guests-allowed').value, 10);
+            
+            if (!db || !guestId || !name || isNaN(table) || isNaN(guestsAllowed)) {
+                showToast("Faltan datos o son inválidos.", 'error');
+                return;
+            }
+
+            try {
+                const guestRef = doc(db, GUESTS_COLLECTION_PATH, guestId);
+                await setDoc(guestRef, {
+                    name: name,
+                    table: table,
+                    guestsAllowed: guestsAllowed,
+                    rsvpStatus: 'Pending',
+                    giftDecision: 'Pending'
+                }, { merge: true });
+
+                showToast(`Invitado ${name} (${guestId}) guardado/actualizado con éxito.`, 'success');
+                // Limpiar formulario excepto el ID
+                document.getElementById('input-guest-name').value = '';
+                document.getElementById('input-guest-table').value = '';
+                document.getElementById('input-guests-allowed').value = '';
+
+            } catch (error) {
+                showToast(`Error al guardar invitado: ${error.message}`, 'error');
+                console.error("Admin Save Guest Error:", error);
+            }
+        });
+
+        // --- LÓGICA DEL CONTADOR DE TIEMPO ---
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = EVENT_DATE - now;
+            const countdownEl = document.getElementById('countdown');
+
+            if (distance < 0) {
+                countdownEl.innerHTML = '<p class="col-span-4 text-2xl font-bold text-red-600">¡EL EVENTO HA COMENZADO!</p>';
+                return;
+            }
+
+            // Cálculo del tiempo
+            const oneSecond = 1000;
+            const oneMinute = oneSecond * 60;
+            const oneHour = oneMinute * 60;
+            const oneDay = oneHour * 24;
+            const oneMonth = oneDay * 30.44; 
+
+            const months = Math.floor(distance / oneMonth);
+            const days = Math.floor((distance % oneMonth) / oneDay);
+            const hours = Math.floor((distance % oneDay) / oneHour);
+            const minutes = Math.floor((distance % oneHour) / oneMinute);
+            const seconds = Math.floor((distance % oneMinute) / oneSecond);
+
+            const displayHtml = `
+                <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${months}</p><p class="text-xs uppercase mt-1">Meses</p></div>
+                <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${days}</p><p class="text-xs uppercase mt-1">Días</p></div>
+                <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${hours}</p><p class="text-xs uppercase mt-1">Horas</p></div>
+                <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${minutes}</p><p class="text-xs uppercase mt-1">Minutos</p></div>
+                <div class="p-3 bg-secondary-color rounded-lg hidden sm:block"><p class="text-3xl font-extrabold">${seconds}</p><p class="text-xs uppercase mt-1">Segundos</p></div>
+            `;
+            
+            // Adaptar a móvil si es necesario
+            if (window.innerWidth < 640) {
+                 const mobileDays = days + (months * 30);
+                 countdownEl.innerHTML = `
+                    <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${mobileDays}</p><p class="text-xs uppercase mt-1">Días</p></div>
+                    <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${hours}</p><p class="text-xs uppercase mt-1">Horas</p></div>
+                    <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${minutes}</p><p class="text-xs uppercase mt-1">Minutos</p></div>
+                    <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${seconds}</p><p class="text-xs uppercase mt-1">Segundos</p></div>
+                `;
+                 countdownEl.classList.replace('grid-cols-4', 'grid-cols-2');
+            } else {
+                 countdownEl.innerHTML = displayHtml;
+                 countdownEl.classList.replace('grid-cols-2', 'grid-cols-4');
+            }
+        }
+
+        // --- LISTENERS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // Iniciar Firebase
+            initializeFirebase();
+            
+            // --- LISTENERS MODO INVITADO ---
+            document.getElementById('btn-confirm-attendance').addEventListener('click', () => {
+                updateRsvp('Confirmed');
+            });
+
+            document.getElementById('btn-not-attending').addEventListener('click', () => {
+                updateRsvp('Not Attending');
+            });
+
+            document.getElementById('btn-whatsapp-prompt').addEventListener('click', () => {
+                document.getElementById('whatsapp-modal').classList.remove('hidden');
+                document.getElementById('whatsapp-modal').classList.add('flex');
+            });
+
+            document.getElementById('modal-cancel-btn').addEventListener('click', () => {
+                document.getElementById('whatsapp-modal').classList.add('hidden');
+                document.getElementById('whatsapp-modal').classList.remove('flex');
+                document.getElementById('input-phone-number').value = '';
+            });
+
+            document.getElementById('modal-confirm-whatsapp-btn').addEventListener('click', () => {
+                const phoneNumber = document.getElementById('input-phone-number').value.trim();
+                
+                // No usamos alert() ni confirm(), pero usamos una confirmación de navegador temporal aquí
+                // Para un entorno real, esto se cambiaría por un modal personalizado.
+                if (phoneNumber && phoneNumber.length < 8) {
+                    showToast("Por favor, ingresa un número de teléfono válido (incluye código de país).", 'error');
+                    return;
+                }
+                
+                document.getElementById('whatsapp-modal').classList.add('hidden');
+                document.getElementById('whatsapp-modal').classList.remove('flex');
+
+                updateRsvp('Confirmed', phoneNumber);
+            });
+            
+            document.getElementById('btn-transfer-gift').addEventListener('click', () => {
+                updateGiftDecision('Transfer');
+            });
+
+            document.getElementById('btn-physical-gift').addEventListener('click', () => {
+                updateGiftDecision('Physical');
+            });
+
+            // --- LISTENER MODO ADMIN ---
+            document.getElementById('admin-login-btn').addEventListener('click', () => {
+                // Usamos prompt() aquí, pero en un entorno real se usaría un campo de contraseña en el HTML
+                const passcode = prompt("Ingresa el código de administrador:");
+                if (passcode === ADMIN_PASSCODE) {
+                    toggleAdminView(true);
+                    showToast("Acceso de Administrador concedido.", 'success');
+                } else if (passcode !== null) {
+                    showToast("Código incorrecto.", 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
