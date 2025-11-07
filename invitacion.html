@@ -59,6 +59,14 @@
             background-color: #333;
             color: white;
         }
+
+        /* Estilo para el Toast que mostrará el link */
+        #toast-message.link-toast {
+            min-width: 300px;
+            display: block;
+            padding: 0;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4">
@@ -269,17 +277,22 @@
         // --- CONSTANTES DEL EVENTO ---
         const EVENT_DATE = new Date("December 31, 2025 20:00:00").getTime(); 
         const ADMIN_PASSCODE = "12345"; 
-        const HOST_PHONE_NUMBER = "529371709943"; // Número de WhatsApp del anfitrión
-
+        const HOST_PHONE_NUMBER = "5215512345678"; // Número de WhatsApp del anfitrión
+        
+        // !!! ATENCIÓN: REEMPLAZA ESTA URL CON LA TUYA DE GITHUB PAGES !!!
+        // Tu URL de GitHub Pages (ej: https://jorge863z.github.io/invitacion-digital/)
+        const GITHUB_PAGES_BASE_URL = "https://jorge863z.github.io/invitacion-digital/";
+        // ---------------------------------------------------------------
+        
         // Ruta de Firestore (Usando la estructura /artifacts/{appId}/public/data/invitations)
         const GUESTS_COLLECTION_PATH = `artifacts/${appId}/public/data/invitations`;
 
         // --- UTILIDADES DE UI (SHOW TOAST) ---
-        function showToast(message, type = 'success') {
+        function showToast(message, type = 'success', extraContent = null) {
             const toast = document.getElementById('toast-message');
-            toast.textContent = message;
             
-            toast.classList.remove('bg-green-500', 'bg-red-500', 'bg-blue-500', 'hidden', 'opacity-0');
+            toast.classList.remove('link-toast', 'bg-green-500', 'bg-red-500', 'bg-blue-500', 'hidden', 'opacity-0');
+            toast.textContent = ''; // Limpiar contenido anterior
             
             if (type === 'success') {
                 toast.classList.add('bg-green-500');
@@ -289,6 +302,16 @@
                 toast.classList.add('bg-blue-500');
             }
 
+            if (extraContent) {
+                // Si hay contenido extra (como el link), mostramos un toast grande
+                toast.classList.add('link-toast');
+                toast.innerHTML = `<div class="p-4">${message}</div>${extraContent}`;
+            } else {
+                 toast.textContent = message;
+                 toast.classList.add('p-4');
+            }
+
+
             toast.classList.add('opacity-100');
             setTimeout(() => {
                 toast.classList.remove('opacity-100');
@@ -296,8 +319,21 @@
                 setTimeout(() => {
                     toast.classList.add('hidden');
                 }, 300);
-            }, 5000);
+            }, 8000); // 8 segundos para que el administrador pueda copiar el link
         }
+
+        // Función para copiar al portapapeles
+        function copyToClipboard(text) {
+            // Usamos document.execCommand('copy') por ser más compatible en entornos de iFrame
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            showToast('¡Enlace copiado al portapapeles!', 'success');
+        }
+        window.copyToClipboard = copyToClipboard; // Hacerla accesible globalmente
 
         function toggleAdminView(enable) {
             const guestView = document.getElementById('guest-view');
@@ -605,32 +641,44 @@
                     guestsAllowed: guestsAllowed,
                 };
                 
+                let actionType = '';
+                
                 if (docSnap.exists()) {
-                    // =========================================================================
                     // 1. EL ID YA EXISTE (ACTUALIZAR)
-                    // Permitimos la actualización de los campos de administración (Nombre, Mesa, Cantidad)
-                    // =========================================================================
                     await setDoc(guestRef, guestData, { merge: true });
-
-                    showToast(`Invitado ${name} (${guestId}) actualizado con éxito.`, 'success');
+                    actionType = 'actualizado';
                 } else {
-                    // =========================================================================
                     // 2. EL ID NO EXISTE (CREAR NUEVO)
-                    // Agregamos los campos iniciales de RSVP y Regalo
-                    // =========================================================================
                     await setDoc(guestRef, {
-                        ...guestData, // Copiamos los datos del formulario
+                        ...guestData,
                         rsvpStatus: 'Pending',
                         giftDecision: 'Pending'
                     }, { merge: false });
-
-                    showToast(`Invitado ${name} (${guestId}) creado con éxito.`, 'success');
+                    actionType = 'creado';
                 }
+                
+                // GENERACIÓN DEL ENLACE COMPLETO
+                const fullLink = `${GITHUB_PAGES_BASE_URL}invitacion.html?guestId=${guestId}`;
+
+                const extraContentHTML = `
+                    <div class="p-4 bg-gray-700 w-full flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                        <input type="text" value="${fullLink}" class="w-full text-xs text-black p-2 rounded-lg" readonly />
+                        <button onclick="window.copyToClipboard('${fullLink}')" class="flex-shrink-0 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                             <i data-lucide="copy" class="w-4 h-4 mr-1"></i> Copiar
+                        </button>
+                    </div>
+                `;
+                
+                showToast(`Invitado ${name} (${guestId}) ${actionType} con éxito.`, 'success', extraContentHTML);
                 
                 // Limpiar formulario excepto el ID
                 document.getElementById('input-guest-name').value = '';
                 document.getElementById('input-guest-table').value = '';
                 document.getElementById('input-guests-allowed').value = '';
+                
+                // Re-crear íconos de Lucide en el toast
+                lucide.createIcons();
+
 
             } catch (error) {
                 showToast(`Error al guardar invitado: ${error.message}`, 'error');
