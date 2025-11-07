@@ -206,7 +206,7 @@
                                 <th class="p-3 text-left font-semibold text-gray-300">Confirma</th>
                                 <th class="p-3 text-left font-semibold text-gray-300">Teléfono</th>
                                 <th class="p-3 text-left font-semibold text-gray-300">Regalo</th>
-                                <th class="p-3 text-left font-semibold text-gray-300">Acciones</th> <!-- Nueva columna -->
+                                <th class="p-3 text-left font-semibold text-gray-300">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="admin-guest-list" class="divide-y divide-gray-700">
@@ -238,8 +238,8 @@
         // Importaciones de Firebase (necesitas la versión 11.6.1)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        // IMPORTANTE: Se añade 'deleteDoc' para la funcionalidad de eliminación
-        import { getFirestore, doc, setDoc, onSnapshot, collection, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        // Importaciones necesarias: getDoc, setDoc, deleteDoc
+        import { getFirestore, doc, setDoc, onSnapshot, collection, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // ==============================================================================
@@ -499,7 +499,7 @@
         
         // --- FUNCIÓN PARA ELIMINAR INVITADO ---
         async function deleteGuest(guestId) {
-            // Reemplaza window.confirm() con un modal de confirmación en un entorno real
+            // Nota: Usamos confirm() aquí. En un entorno real se usaría un modal de confirmación personalizado.
             if (!confirm(`¿Estás seguro de que deseas eliminar al invitado con ID: ${guestId}?`)) {
                 return; // Si el administrador cancela, salimos
             }
@@ -596,15 +596,37 @@
 
             try {
                 const guestRef = doc(db, GUESTS_COLLECTION_PATH, guestId);
-                await setDoc(guestRef, {
+                const docSnap = await getDoc(guestRef); 
+                
+                // Creamos un objeto con los datos a guardar/actualizar
+                const guestData = {
                     name: name,
                     table: table,
                     guestsAllowed: guestsAllowed,
-                    rsvpStatus: 'Pending',
-                    giftDecision: 'Pending'
-                }, { merge: true });
+                };
+                
+                if (docSnap.exists()) {
+                    // =========================================================================
+                    // 1. EL ID YA EXISTE (ACTUALIZAR)
+                    // Permitimos la actualización de los campos de administración (Nombre, Mesa, Cantidad)
+                    // =========================================================================
+                    await setDoc(guestRef, guestData, { merge: true });
 
-                showToast(`Invitado ${name} (${guestId}) guardado/actualizado con éxito.`, 'success');
+                    showToast(`Invitado ${name} (${guestId}) actualizado con éxito.`, 'success');
+                } else {
+                    // =========================================================================
+                    // 2. EL ID NO EXISTE (CREAR NUEVO)
+                    // Agregamos los campos iniciales de RSVP y Regalo
+                    // =========================================================================
+                    await setDoc(guestRef, {
+                        ...guestData, // Copiamos los datos del formulario
+                        rsvpStatus: 'Pending',
+                        giftDecision: 'Pending'
+                    }, { merge: false });
+
+                    showToast(`Invitado ${name} (${guestId}) creado con éxito.`, 'success');
+                }
+                
                 // Limpiar formulario excepto el ID
                 document.getElementById('input-guest-name').value = '';
                 document.getElementById('input-guest-table').value = '';
@@ -697,8 +719,7 @@
             document.getElementById('modal-confirm-whatsapp-btn').addEventListener('click', () => {
                 const phoneNumber = document.getElementById('input-phone-number').value.trim();
                 
-                // No usamos alert() ni confirm(), pero usamos una confirmación de navegador temporal aquí
-                // Para un entorno real, esto se cambiaría por un modal personalizado.
+                // Nota: Usamos confirm() aquí. En un entorno real se usaría un modal de confirmación personalizado.
                 if (phoneNumber && phoneNumber.length < 8) {
                     showToast("Por favor, ingresa un número de teléfono válido (incluye código de país).", 'error');
                     return;
