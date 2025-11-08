@@ -119,7 +119,17 @@
                 </div>
             </section>
 
-            <!-- SECCIÓN 4: Detalles del Invitado y RSVP -->
+            <!-- SECCIÓN 4: UBICACIÓN DEL EVENTO (POSICIÓN ORIGINAL - DESPUÉS DE FOTOS) -->
+            <section class="card p-6">
+                <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Ubicación del Evento</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="location-container">
+                    <!-- Ubicaciones generadas por JS -->
+                </div>
+            </section>
+            <!-- FIN DE SECCIÓN UBICACIÓN -->
+            
+            <!-- SECCIÓN 5: Detalles del Invitado y RSVP -->
             <section class="card p-6">
                 <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Tu Invitación</h2>
                 
@@ -158,7 +168,7 @@
                 </div>
             </section>
 
-            <!-- SECCIÓN 5: Regalos (Mesa de Regalos) -->
+            <!-- SECCIÓN 6: Regalos (Mesa de Regalos) -->
             <section class="card p-6">
                 <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Mesa de Regalos</h2>
                 
@@ -253,6 +263,7 @@
         // ==============================================================================
         //  CONFIGURACIÓN DE FIREBASE PARA USO LOCAL EN VISUAL STUDIO CODE (VS CODE)
         // ==============================================================================
+        // **IMPORTANTE:** Esta configuración está basada en tu proyecto 'invitaciones-digitales-c14a8'
         const firebaseConfig = {
             apiKey: "AIzaSyCJfiyLFG0u2lid-DsPjkMX19toPLM45BY",
             authDomain: "invitaciones-digitales-c14a8.firebaseapp.com",
@@ -274,14 +285,31 @@
         let currentGuestData = null;
         let isAdminMode = false;
 
-        // --- CONSTANTES DEL EVENTO ---
-        const EVENT_DATE = new Date("December 31, 2025 20:00:00").getTime(); 
+        // --- CONSTANTES DEL EVENTO Y UBICACIÓN (MODIFICABLES) ---
+        const EVENT_DATE = new Date("December 01, 2025 20:00:00").getTime(); 
         const ADMIN_PASSCODE = "12345"; 
-        const HOST_PHONE_NUMBER = "529371709943"; // Número de WhatsApp del anfitrión
+        const HOST_PHONE_NUMBER = "529371709943"; // Número de WhatsApp del anfitrión (con código de país)
         
-        // !!! ATENCIÓN: REEMPLAZA ESTA URL CON LA TUYA DE GITHUB PAGES !!!
-        // Tu URL de GitHub Pages (ej: https://jorge863z.github.io/invitacion-digital/)
+        // URL de GitHub Pages (Necesaria para generar el link a los administradores)
         const GITHUB_PAGES_BASE_URL = "https://jorge863z.github.io/invitacion-digital/";
+        
+        // UBICACIONES DEL EVENTO (MODIFICABLES por el cliente)
+        const LOCATIONS = [
+            {
+                id: 'ceremony',
+                title: 'Ceremonia (Templo)',
+                address: 'Parroquia San Antonio de Padua, Cda. Miguel Orrico de Los Llanos, Centro, 86500 Cárdenas, Tab.',
+                time: '16:00 hrs',
+                mapLink: 'https://maps.app.goo.gl/PMjnfoWgENuuvJ7Y8' // Enlace directo a Google Maps
+            },
+            {
+                id: 'reception',
+                title: 'Recepción y Fiesta',
+                address: 'Salón de Eventos "Chunkul,Pueblo Nuevo, 86560 Cárdenas, Tab.',
+                time: '20:00 hrs',
+                mapLink: ''https://maps.app.goo.gl/VkLqpSmPa896jrwL9 // Enlace directo a Google Maps
+            }
+        ];
         // ---------------------------------------------------------------
         
         // Ruta de Firestore (Usando la estructura /artifacts/{appId}/public/data/invitations)
@@ -407,6 +435,38 @@
                 console.error("Firebase Initialization Error:", error);
             }
         }
+        
+        // --- RENDERIZADO DE UBICACIONES ---
+        function renderLocations() {
+            const container = document.getElementById('location-container');
+            container.innerHTML = ''; // Limpiar el contenedor
+
+            LOCATIONS.forEach(loc => {
+                const iconMap = {
+                    ceremony: 'church',
+                    reception: 'party-popper'
+                };
+                // El icono usa church para ceremonia, party-popper para fiesta y map-pin por defecto
+                const icon = iconMap[loc.id] || 'map-pin';
+                
+                const html = `
+                    <div id="location-${loc.id}" class="p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
+                        <div class="flex items-center text-primary-color">
+                             <i data-lucide="${icon}" class="w-6 h-6 mr-2"></i>
+                             <h3 class="text-xl font-bold">${loc.title}</h3>
+                        </div>
+                        <p class="text-sm">${loc.address}</p>
+                        <p class="text-sm font-semibold">${loc.time}</p>
+                        <a href="${loc.mapLink}" target="_blank" class="block btn-secondary text-center py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">
+                            <i data-lucide="map-pin" class="w-4 h-4 mr-1 inline-block"></i> Ver en Google Maps
+                        </a>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+            lucide.createIcons(); // Crear los nuevos iconos
+        }
+
 
         // --- GESTIÓN DE INVITADO (LECTURA) ---
         function listenToGuestDetails(guestId) {
@@ -736,6 +796,8 @@
 
         // --- LISTENERS ---
         document.addEventListener('DOMContentLoaded', () => {
+            // Renderizar las ubicaciones al cargar
+            renderLocations();
             lucide.createIcons();
 
             updateCountdown();
@@ -802,5 +864,4 @@
     </script>
 </body>
 </html>
-
 
