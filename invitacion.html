@@ -90,7 +90,7 @@
     <div id="toast-message" class="fixed top-5 z-50 p-4 rounded-lg shadow-xl text-white transition-opacity duration-300 opacity-0 hidden" role="alert"></div>
 
     <!-- Contenedor Principal (Vista Invitado/Admin) -->
-    <main id="app-container" class="w-full max-w-4xl space-y-6 pb-12"> <!-- Reducido space-y-8 a space-y-6 -->
+    <main id="app-container" class="w-full max-w-4xl space-y-6 pb-12">
 
         <!-- Botón de Acceso Admin (Flotante y discreto) -->
         <button id="admin-login-btn" class="fixed bottom-4 right-4 bg-gray-700 text-white p-3 rounded-full shadow-lg z-20 hover:bg-gray-900 transition-colors">
@@ -98,7 +98,7 @@
         </button>
 
         <!-- MODO INVITADO -->
-        <div id="guest-view" class="space-y-6"> <!-- Reducido space-y-8 a space-y-6 -->
+        <div id="guest-view" class="space-y-6">
             
             <!-- SECCIÓN 1: Bienvenida y Título del Evento -->
             <section class="text-center py-10 bg-white card shadow-2xl">
@@ -114,7 +114,7 @@
             </section>
 
             <!-- SECCIÓN 2: Cuenta Regresiva (Diseño Compacto) -->
-            <section class="card text-center border-b-4 border-t-4 border-accent-color p-4"> <!-- Padding reducido -->
+            <section class="card text-center border-b-4 border-t-4 border-accent-color p-4">
                 <h2 class="text-xl font-semibold mb-3 text-primary-color flex items-center justify-center">
                     <i data-lucide="clock" class="w-5 h-5 mr-2"></i> Cuenta Regresiva
                 </h2>
@@ -122,19 +122,33 @@
                     <!-- Los divs de tiempo serán llenados por JavaScript -->
                 </div>
             </section>
-            
-            <!-- NUEVA SECCIÓN: AGRADECIMIENTO (MOVIMOS AQUÍ) -->
-            <section class="card p-6 text-center bg-primary-color text-white shadow-lg">
-                <p class="header-font text-2xl font-bold mb-1">Tu Presencia es Nuestro Mejor Regalo.</p>
-                <p class="text-sm opacity-90">¡Gracias por ser parte de nuestra historia!</p>
+
+            <!-- SECCIÓN 3: REPRODUCTOR DE SPOTIFY (MOVIDO AQUÍ - ARRIBA) -->
+            <section class="card p-6">
+                <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Música del Evento</h2>
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 mb-4">Toca el botón "Play" para escuchar nuestra canción.</p>
+                    
+                    <!-- INSTRUCCIÓN: REEMPLAZA TODO EL CÓDIGO DEL IFRAME DE ABAJO POR TU CÓDIGO DE SPOTIFY -->
+                    <iframe 
+                        style="border-radius:12px" 
+                        <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/2plbrEY59IikOBgBGLjaoe?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        
+                    ></iframe>
+                </div>
             </section>
-            <!-- FIN NUEVA SECCIÓN: AGRADECIMIENTO -->
+            <!-- FIN SECCIÓN SPOTIFY -->
+            
+            <!-- SECCIÓN 4: AGRADECIMIENTO (Fondo Dorado para contraste) -->
+            <section class="p-6 text-center rounded-xl shadow-lg" style="background-color: var(--accent-color); color: white;">
+                <p class="header-font text-2xl font-bold mb-1">Tu Presencia es Nuestro Mejor Regalo.</p>
+                <p class="text-sm font-medium">¡Gracias por ser parte de nuestra historia!</p>
+            </section>
+            <!-- FIN SECCIÓN AGRADECIMIENTO -->
 
-
-            <!-- NUEVA SECCIÓN: CÓDIGO DE VESTIMENTA (Diseño Integrado) -->
+            <!-- SECCIÓN 5: CÓDIGO DE VESTIMENTA -->
             <section class="card p-6 bg-gray-50 border-t border-b border-primary-color">
                 <div class="grid grid-cols-1 gap-4">
-                    <!-- VESTIMENTA (Dress Code) -->
                     <div class="space-y-3 text-center">
                         <h3 class="header-font text-2xl font-bold text-primary-color flex items-center justify-center">
                             <i data-lucide="shirt" class="w-6 h-6 mr-2 text-accent-color"></i> Código de Vestimenta
@@ -145,20 +159,20 @@
                     </div>
                 </div>
             </section>
-            <!-- FIN NUEVA SECCIÓN: VESTIMENTA -->
+            <!-- FIN SECCIÓN VESTIMENTA -->
 
-            <!-- SECCIÓN 3: Galería de Fotos (Mock) -->
-            <section class="space-y-4 pt-0 mt-[-24px]"> <!-- CLAVE: mt-[-24px] para eliminar el espacio -->
+            <!-- SECCIÓN 6: Galería de Fotos (Mock) -->
+            <section class="space-y-4 pt-0 mt-[-24px]"> 
                 <h2 class="header-font text-3xl font-bold text-center text-primary-color">Nuestras Fotos</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <img src="https://placehold.co/400x300/A32D50/F8F4E3?text=Foto+1" onerror="this.src='https://placehold.co/400x300/A32D50/F8F4E3?text=Foto+1'" alt="Foto 1 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                    <img src=""https://www.google.com/imgres?q=boda%20seccion%20fotos&imgurl=https%3A%2F%2Fcdn0.bodas.com.mx%2Farticle%2F3583%2F3_2%2F1280%2Fjpg%2F53853-boda.webp&imgrefurl=https%3A%2F%2Fwww.bodas.com.mx%2Farticulos%2Fsesiones-de-fotos-para-boda--c8208&docid=F6LxT6xi2_qQdM&tbnid=9ZuP5RYoj9HihM&vet=12ahUKEwjO8OeE4YeRAxW278kDHdknPYsQM3oECB0QAA..i&w=1200&h=799&hcb=2&ved=2ahUKEwjO8OeE4YeRAxW278kDHdknPYsQM3oECB0QAA onerror="this.src='https://placehold.co/400x300/A32D50/F8F4E3?text=Foto+1'" alt="Foto 1 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
                     <img src="https://placehold.co/400x300/D9A440/333?text=Foto+2" onerror="this.src='https://placehold.co/400x300/D9A440/333?text=Foto+2'" alt="Foto 2 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
                     <img src="https://placehold.co/400x300/852243/FFF?text=Foto+3" onerror="this.src='https://placehold.co/400x300/852243/FFF?text=Foto+3'" alt="Foto 3 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
                     <img src="https://placehold.co/400x300/333/F8F4E3?text=Foto+4" onerror="this.src='https://placehold.co/400x300/333/F8F4E3?text=Foto+4'" alt="Foto 4 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
                 </div>
             </section>
 
-            <!-- SECCIÓN 4: UBICACIÓN DEL EVENTO -->
+            <!-- SECCIÓN 7: UBICACIÓN DEL EVENTO -->
             <section class="card p-6">
                 <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Ubicación del Evento</h2>
                 
@@ -166,9 +180,9 @@
                     <!-- Ubicaciones generadas por JS -->
                 </div>
             </section>
-            <!-- FIN DE SECCIÓN UBICACIÓN -->
+            <!-- FIN SECCIÓN UBICACIÓN -->
             
-            <!-- SECCIÓN 5: Detalles del Invitado y RSVP -->
+            <!-- SECCIÓN 8: Detalles del Invitado y RSVP -->
             <section class="card p-6">
                 <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Tu Invitación</h2>
                 
@@ -207,7 +221,7 @@
                 </div>
             </section>
 
-            <!-- SECCIÓN 6: Regalos (Mesa de Regalos) -->
+            <!-- SECCIÓN 9: Regalos (Mesa de Regalos) -->
             <section class="card p-6">
                 <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Mesa de Regalos</h2>
                 
@@ -236,34 +250,6 @@
                     <p id="gift-status-message" class="text-center text-md font-bold mt-4"></p>
                 </div>
             </section>
-
-            <!-- SECCIÓN 7: REPRODUCTOR DE SPOTIFY (iFrame) -->
-            <section class="card p-6">
-                <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Música del Evento</h2>
-                <div class="text-center">
-                    <p class="text-sm text-gray-600 mb-4">Toca el botón "Play" para escuchar nuestra canción.</p>
-                    
-                    <!-- INSTRUCCIÓN: REEMPLAZA TODO EL CÓDIGO DEL IFRAME DE ABAJO POR TU CÓDIGO DE SPOTIFY -->
-                    <iframe 
-                        style="border-radius:12px" 
-                        src="https://open.spotify.com/embed/track/2S5kI2Q1R0wEToqW6x7v5a?utm_source=generator&theme=0" 
-                        width="100%" 
-                        height="152" 
-                        frameBorder="0" 
-                        allowfullscreen="" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy"
-                    ></iframe>
-                </div>
-            </section>
-            <!-- FIN NUEVA SECCIÓN: SPOTIFY -->
-            
-            <!-- SECCIÓN 8: AGRADECIMIENTO FINAL (Simplemente eliminé el color de fondo para que quede más limpio) -->
-            <section class="card p-8 text-center shadow-lg">
-                <p class="header-font text-3xl font-bold text-gray-800 mb-1">¡Gracias por ser parte de nuestra historia!</p>
-                <p class="text-lg text-gray-600">Su compañía es el regalo más valioso. ¡Nos vemos en el gran día!</p>
-            </section>
-            <!-- FIN NUEVA SECCIÓN: AGRADECIMIENTO FINAL -->
         </div>
         
         <!-- MODO ADMINISTRADOR -->
@@ -307,7 +293,7 @@
     <!-- Modal para Teléfono/WhatsApp -->
     <div id="whatsapp-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
         <div class="card w-full max-w-sm p-6 space-y-4">
-            <h3 class="text-xl font-bold text-primary-color">Ingresa tu Teléfono</h3>
+            <h3 class="text-xl font-bold text-primary-color">937 170 9943</h3>
             <p class="text-sm text-gray-600">Opcional: Esto nos ayuda a contactarte en caso de emergencia. Si confirmas, también te llevaremos a WhatsApp para que envíes el mensaje de confirmación.</p>
             <input type="tel" id="input-phone-number" placeholder="Ej: 521XXXXXXXXX (Código de país + número)" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-primary-color focus:border-primary-color">
             <div class="flex justify-end space-x-3">
@@ -932,7 +918,6 @@
 
             // --- LISTENER MODO ADMIN ---
             document.getElementById('admin-login-btn').addEventListener('click', () => {
-                // Usamos prompt() aquí, pero en un entorno real se usaría un campo de contraseña en el HTML
                 const passcode = prompt("Ingresa el código de administrador:");
                 if (passcode === ADMIN_PASSCODE) {
                     toggleAdminView(true);
