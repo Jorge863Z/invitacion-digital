@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -68,14 +68,26 @@
             padding: 0;
             cursor: pointer;
         }
+
+        /* Nuevo estilo para la cuenta regresiva compacta */
+        .countdown-item {
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 0.5rem;
+            background-color: var(--secondary-color);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .countdown-item p:first-child {
+            font-size: 1.5rem; /* 24px */
+            font-weight: 800; /* Extra bold */
+            line-height: 1.2;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4">
 
     <!-- Mensaje Toast (No usar alert()) -->
     <div id="toast-message" class="fixed top-5 z-50 p-4 rounded-lg shadow-xl text-white transition-opacity duration-300 opacity-0 hidden" role="alert"></div>
-
-    <!-- El botón de control de música flotante y el prompt de inicio han sido ELIMINADOS -->
 
     <!-- Contenedor Principal (Vista Invitado/Admin) -->
     <main id="app-container" class="w-full max-w-4xl space-y-8 pb-12">
@@ -101,25 +113,33 @@
                 </p>
             </section>
 
-            <!-- SECCIÓN 2: Cuenta Regresiva -->
-            <section class="card text-center border-b-4 border-t-4 border-accent-color p-6">
-                <h2 class="text-2xl font-semibold mb-4 text-primary-color flex items-center justify-center">
-                    <i data-lucide="clock" class="w-6 h-6 mr-2"></i> Cuenta Regresiva
+            <!-- SECCIÓN 2: Cuenta Regresiva (Diseño Compacto) -->
+            <section class="card text-center border-b-4 border-t-4 border-accent-color p-4"> <!-- Padding reducido -->
+                <h2 class="text-xl font-semibold mb-3 text-primary-color flex items-center justify-center">
+                    <i data-lucide="clock" class="w-5 h-5 mr-2"></i> Cuenta Regresiva
                 </h2>
-                <div id="countdown" class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-primary-color font-mono">
+                <div id="countdown" class="grid grid-cols-5 gap-2 text-primary-color font-mono">
                     <!-- Los divs de tiempo serán llenados por JavaScript -->
                 </div>
             </section>
+            
+            <!-- NUEVA SECCIÓN: AGRADECIMIENTO (MOVIMOS AQUÍ) -->
+            <section class="card p-6 text-center bg-primary-color text-white shadow-lg">
+                <p class="header-font text-2xl font-bold mb-1">Tu Presencia es Nuestro Mejor Regalo.</p>
+                <p class="text-sm opacity-90">¡Gracias por ser parte de nuestra historia!</p>
+            </section>
+            <!-- FIN NUEVA SECCIÓN: AGRADECIMIENTO -->
 
-            <!-- NUEVA SECCIÓN: CÓDIGO DE VESTIMENTA -->
+
+            <!-- NUEVA SECCIÓN: CÓDIGO DE VESTIMENTA (Diseño Integrado) -->
             <section class="card p-6 bg-gray-50 border-t border-b border-primary-color">
-                <div class="grid grid-cols-1 md:grid-cols-1 gap-8">
+                <div class="grid grid-cols-1 gap-4">
                     <!-- VESTIMENTA (Dress Code) -->
-                    <div class="space-y-4 text-center">
-                        <h3 class="header-font text-3xl font-bold text-primary-color flex items-center justify-center mb-4">
+                    <div class="space-y-3 text-center">
+                        <h3 class="header-font text-2xl font-bold text-primary-color flex items-center justify-center">
                             <i data-lucide="shirt" class="w-6 h-6 mr-2 text-accent-color"></i> Código de Vestimenta
                         </h3>
-                        <div id="dress-code" class="text-lg font-bold text-center p-4 rounded-lg bg-white shadow-md border-l-4 border-primary-color mx-auto max-w-md">
+                        <div id="dress-code" class="text-lg font-bold text-gray-700 p-3 rounded-lg bg-white shadow-md mx-auto max-w-lg border border-gray-200">
                             <!-- Se llena con JS -->
                         </div>
                     </div>
@@ -138,7 +158,7 @@
                 </div>
             </section>
 
-            <!-- SECCIÓN 4: UBICACIÓN DEL EVENTO (POSICIÓN ORIGINAL - DESPUÉS DE FOTOS) -->
+            <!-- SECCIÓN 4: UBICACIÓN DEL EVENTO -->
             <section class="card p-6">
                 <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Ubicación del Evento</h2>
                 
@@ -217,7 +237,7 @@
                 </div>
             </section>
 
-            <!-- NUEVA SECCIÓN: REPRODUCTOR DE SPOTIFY (iFrame) -->
+            <!-- SECCIÓN 7: REPRODUCTOR DE SPOTIFY (iFrame) -->
             <section class="card p-6">
                 <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Música del Evento</h2>
                 <div class="text-center">
@@ -226,18 +246,24 @@
                     <!-- INSTRUCCIÓN: REEMPLAZA TODO EL CÓDIGO DEL IFRAME DE ABAJO POR TU CÓDIGO DE SPOTIFY -->
                     <iframe 
                         style="border-radius:12px" 
-                        src="https://open.spotify.com/embed/track/2plbrEY59IikOBgBGLjaoe?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        src="https://open.spotify.com/embed/track/2S5kI2Q1R0wEToqW6x7v5a?utm_source=generator&theme=0" 
+                        width="100%" 
+                        height="152" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy"
                     ></iframe>
                 </div>
             </section>
             <!-- FIN NUEVA SECCIÓN: SPOTIFY -->
             
-            <!-- NUEVA SECCIÓN: AGRADECIMIENTO -->
-            <section class="card p-8 text-center bg-accent-color text-white shadow-2xl">
-                <h2 class="header-font text-4xl font-bold mb-4">¡Gracias por ser parte de nuestra historia!</h2>
-                <p class="text-lg">Su compañía es el regalo más valioso. ¡Nos vemos en el gran día!</p>
+            <!-- SECCIÓN 8: AGRADECIMIENTO FINAL (Simplemente eliminé el color de fondo para que quede más limpio) -->
+            <section class="card p-8 text-center shadow-lg">
+                <p class="header-font text-3xl font-bold text-gray-800 mb-1">¡Gracias por ser parte de nuestra historia!</p>
+                <p class="text-lg text-gray-600">Su compañía es el regalo más valioso. ¡Nos vemos en el gran día!</p>
             </section>
-            <!-- FIN NUEVA SECCIÓN: AGRADECIMIENTO -->
+            <!-- FIN NUEVA SECCIÓN: AGRADECIMIENTO FINAL -->
         </div>
         
         <!-- MODO ADMINISTRADOR -->
@@ -325,8 +351,6 @@
         let currentGuestId = null;
         let currentGuestData = null;
         let isAdminMode = false;
-        
-        // La lógica de Tone.js, initMusic, y toggleMusic ha sido ELIMINADA
 
 
         // --- CONSTANTES DEL EVENTO Y UBICACIÓN (MODIFICABLES) ---
@@ -806,7 +830,7 @@
             const countdownEl = document.getElementById('countdown');
 
             if (distance < 0) {
-                countdownEl.innerHTML = '<p class="col-span-4 text-2xl font-bold text-red-600">¡EL EVENTO HA COMENZADO!</p>';
+                countdownEl.innerHTML = '<p class="col-span-5 text-lg font-bold text-red-600">¡EL EVENTO HA COMENZADO!</p>';
                 return;
             }
 
@@ -823,33 +847,34 @@
             const minutes = Math.floor((distance % oneHour) / oneMinute);
             const seconds = Math.floor((distance % oneMinute) / oneSecond);
 
+            // Diseño compacto (5 columnas)
             const displayHtml = `
-                <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${months}</p><p class="text-xs uppercase mt-1">Meses</p></div>
-                <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${days}</p><p class="text-xs uppercase mt-1">Días</p></div>
-                <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${hours}</p><p class="text-xs uppercase mt-1">Horas</p></div>
-                <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${minutes}</p><p class="text-xs uppercase mt-1">Minutos</p></div>
-                <div class="p-3 bg-secondary-color rounded-lg hidden sm:block"><p class="text-3xl font-extrabold">${seconds}</p><p class="text-xs uppercase mt-1">Segundos</p></div>
+                <div class="countdown-item"><p>${months}</p><p class="text-xs uppercase mt-1">Meses</p></div>
+                <div class="countdown-item"><p>${days}</p><p class="text-xs uppercase mt-1">Días</p></div>
+                <div class="countdown-item"><p>${hours}</p><p class="text-xs uppercase mt-1">Horas</p></div>
+                <div class="countdown-item"><p>${minutes}</p><p class="text-xs uppercase mt-1">Minutos</p></div>
+                <div class="countdown-item"><p>${seconds}</p><p class="text-xs uppercase mt-1">Segundos</p></div>
             `;
             
-            // Adaptar a móvil si es necesario
+            // Adaptar a móvil (usar 3 columnas: Días totales, Horas, Minutos, Segundos)
             if (window.innerWidth < 640) {
-                 const mobileDays = days + (months * 30);
+                 const totalDays = days + (months * 30);
                  countdownEl.innerHTML = `
-                    <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${mobileDays}</p><p class="text-xs uppercase mt-1">Días</p></div>
-                    <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${hours}</p><p class="text-xs uppercase mt-1">Horas</p></div>
-                    <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${minutes}</p><p class="text-xs uppercase mt-1">Minutos</p></div>
-                    <div class="p-3 bg-secondary-color rounded-lg"><p class="text-3xl font-extrabold">${seconds}</p><p class="text-xs uppercase mt-1">Segundos</p></div>
+                    <div class="countdown-item col-span-2"><p>${totalDays}</p><p class="text-xs uppercase mt-1">Días</p></div>
+                    <div class="countdown-item"><p>${hours}</p><p class="text-xs uppercase mt-1">Hrs</p></div>
+                    <div class="countdown-item"><p>${minutes}</p><p class="text-xs uppercase mt-1">Min</p></div>
+                    <div class="countdown-item hidden sm:block"><p>${seconds}</p><p class="text-xs uppercase mt-1">Seg</p></div>
                 `;
-                 countdownEl.classList.replace('grid-cols-4', 'grid-cols-2');
+                 countdownEl.classList.replace('grid-cols-5', 'grid-cols-4');
+                 countdownEl.classList.add('grid-cols-4'); // Asegurar 4 columnas para móvil
             } else {
                  countdownEl.innerHTML = displayHtml;
-                 countdownEl.classList.replace('grid-cols-2', 'grid-cols-4');
+                 countdownEl.classList.replace('grid-cols-4', 'grid-cols-5');
             }
         }
 
         // --- LISTENERS ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Ya no inicializamos Tone.js
             
             // Renderizar la vestimenta al cargar
             renderDressCode();
@@ -920,7 +945,6 @@
     </script>
 </body>
 </html>
-       
 
 
 
