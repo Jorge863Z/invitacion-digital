@@ -90,7 +90,7 @@
     <div id="toast-message" class="fixed top-5 z-50 p-4 rounded-lg shadow-xl text-white transition-opacity duration-300 opacity-0 hidden" role="alert"></div>
 
     <!-- Contenedor Principal (Vista Invitado/Admin) -->
-    <main id="app-container" class="w-full max-w-4xl space-y-8 pb-12">
+    <main id="app-container" class="w-full max-w-4xl space-y-6 pb-12"> <!-- Reducido space-y-8 a space-y-6 -->
 
         <!-- Botón de Acceso Admin (Flotante y discreto) -->
         <button id="admin-login-btn" class="fixed bottom-4 right-4 bg-gray-700 text-white p-3 rounded-full shadow-lg z-20 hover:bg-gray-900 transition-colors">
@@ -98,7 +98,7 @@
         </button>
 
         <!-- MODO INVITADO -->
-        <div id="guest-view" class="space-y-8">
+        <div id="guest-view" class="space-y-6"> <!-- Reducido space-y-8 a space-y-6 -->
             
             <!-- SECCIÓN 1: Bienvenida y Título del Evento -->
             <section class="text-center py-10 bg-white card shadow-2xl">
@@ -148,7 +148,7 @@
             <!-- FIN NUEVA SECCIÓN: VESTIMENTA -->
 
             <!-- SECCIÓN 3: Galería de Fotos (Mock) -->
-            <section class="space-y-4">
+            <section class="space-y-4 pt-0 mt-[-24px]"> <!-- CLAVE: mt-[-24px] para eliminar el espacio -->
                 <h2 class="header-font text-3xl font-bold text-center text-primary-color">Nuestras Fotos</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <img src="https://placehold.co/400x300/A32D50/F8F4E3?text=Foto+1" onerror="this.src='https://placehold.co/400x300/A32D50/F8F4E3?text=Foto+1'" alt="Foto 1 de la pareja" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
@@ -945,7 +945,5 @@
     </script>
 </body>
 </html>
-
-
 
 
