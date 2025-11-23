@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Carga de Lucide Icons (Iconos) -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- La librería Tone.js ha sido ELIMINADA -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
         
@@ -74,6 +75,8 @@
     <!-- Mensaje Toast (No usar alert()) -->
     <div id="toast-message" class="fixed top-5 z-50 p-4 rounded-lg shadow-xl text-white transition-opacity duration-300 opacity-0 hidden" role="alert"></div>
 
+    <!-- El botón de control de música flotante y el prompt de inicio han sido ELIMINADOS -->
+
     <!-- Contenedor Principal (Vista Invitado/Admin) -->
     <main id="app-container" class="w-full max-w-4xl space-y-8 pb-12">
 
@@ -107,6 +110,22 @@
                     <!-- Los divs de tiempo serán llenados por JavaScript -->
                 </div>
             </section>
+
+            <!-- NUEVA SECCIÓN: CÓDIGO DE VESTIMENTA -->
+            <section class="card p-6 bg-gray-50 border-t border-b border-primary-color">
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-8">
+                    <!-- VESTIMENTA (Dress Code) -->
+                    <div class="space-y-4 text-center">
+                        <h3 class="header-font text-3xl font-bold text-primary-color flex items-center justify-center mb-4">
+                            <i data-lucide="shirt" class="w-6 h-6 mr-2 text-accent-color"></i> Código de Vestimenta
+                        </h3>
+                        <div id="dress-code" class="text-lg font-bold text-center p-4 rounded-lg bg-white shadow-md border-l-4 border-primary-color mx-auto max-w-md">
+                            <!-- Se llena con JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- FIN NUEVA SECCIÓN: VESTIMENTA -->
 
             <!-- SECCIÓN 3: Galería de Fotos (Mock) -->
             <section class="space-y-4">
@@ -197,6 +216,34 @@
                     <p id="gift-status-message" class="text-center text-md font-bold mt-4"></p>
                 </div>
             </section>
+
+            <!-- NUEVA SECCIÓN: REPRODUCTOR DE SPOTIFY (iFrame) -->
+            <section class="card p-6">
+                <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Música del Evento</h2>
+                <div class="text-center">
+                    <p class="text-sm text-gray-600 mb-4">Toca el botón "Play" para escuchar nuestra canción.</p>
+                    
+                    <!-- INSTRUCCIÓN: REEMPLAZA TODO EL CÓDIGO DEL IFRAME DE ABAJO POR TU CÓDIGO DE SPOTIFY -->
+                    <iframe 
+                        style="border-radius:12px" 
+                        src="https://open.spotify.com/embed/track/2S5kI2Q1R0wEToqW6x7v5a?utm_source=generator&theme=0" 
+                        width="100%" 
+                        height="152" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy"
+                    ></iframe>
+                </div>
+            </section>
+            <!-- FIN NUEVA SECCIÓN: SPOTIFY -->
+            
+            <!-- NUEVA SECCIÓN: AGRADECIMIENTO -->
+            <section class="card p-8 text-center bg-accent-color text-white shadow-2xl">
+                <h2 class="header-font text-4xl font-bold mb-4">¡Gracias por ser parte de nuestra historia!</h2>
+                <p class="text-lg">Su compañía es el regalo más valioso. ¡Nos vemos en el gran día!</p>
+            </section>
+            <!-- FIN NUEVA SECCIÓN: AGRADECIMIENTO -->
         </div>
         
         <!-- MODO ADMINISTRADOR -->
@@ -284,11 +331,14 @@
         let currentGuestId = null;
         let currentGuestData = null;
         let isAdminMode = false;
+        
+        // La lógica de Tone.js, initMusic, y toggleMusic ha sido ELIMINADA
+
 
         // --- CONSTANTES DEL EVENTO Y UBICACIÓN (MODIFICABLES) ---
-        const EVENT_DATE = new Date("December 01, 2025 20:00:00").getTime(); 
+        const EVENT_DATE = new Date("December 31, 2025 20:00:00").getTime(); 
         const ADMIN_PASSCODE = "12345"; 
-        const HOST_PHONE_NUMBER = "529371709943"; // Número de WhatsApp del anfitrión (con código de país)
+        const HOST_PHONE_NUMBER = "5215512345678"; // Número de WhatsApp del anfitrión
         
         // URL de GitHub Pages (Necesaria para generar el link a los administradores)
         const GITHUB_PAGES_BASE_URL = "https://jorge863z.github.io/invitacion-digital/";
@@ -298,23 +348,30 @@
             {
                 id: 'ceremony',
                 title: 'Ceremonia (Templo)',
-                address: 'Parroquia San Antonio de Padua, Cda. Miguel Orrico de Los Llanos, Centro, 86500 Cárdenas, Tab.',
+                address: 'Parroquia de San Miguel Arcángel, Col. Centro, CDMX',
                 time: '16:00 hrs',
-                mapLink: 'https://maps.app.goo.gl/PMjnfoWgENuuvJ7Y8' // Enlace directo a Google Maps
+                mapLink: 'https://maps.app.goo.gl/EJXJj8UfK8zN15x88' // Enlace directo a Google Maps
             },
             {
                 id: 'reception',
                 title: 'Recepción y Fiesta',
-                address: 'Salón de Eventos "Chunkul,Pueblo Nuevo, 86560 Cárdenas, Tab.',
-                time: '20:00 hrs',
-                mapLink: 'https://maps.app.goo.gl/VkLqpSmPa896jrwL9' // Enlace directo a Google Maps
+                address: 'Salón de Eventos Esmeralda, Av. 5, Col. Juárez, CDMX',
+                time: '19:00 hrs',
+                mapLink: 'https://maps.app.goo.gl/L9F9w2QvQ3Q5e9k77' // Enlace directo a Google Maps
             }
         ];
+        
+        // DETALLES ADICIONALES (SOLO VESTIMENTA)
+        const EVENT_DETAILS = {
+            dressCode: "Formal de Noche (Colores claros no son recomendados)",
+        };
+
         // ---------------------------------------------------------------
         
         // Ruta de Firestore (Usando la estructura /artifacts/{appId}/public/data/invitations)
         const GUESTS_COLLECTION_PATH = `artifacts/${appId}/public/data/invitations`;
-
+        
+        
         // --- UTILIDADES DE UI (SHOW TOAST) ---
         function showToast(message, type = 'success', extraContent = null) {
             const toast = document.getElementById('toast-message');
@@ -397,8 +454,6 @@
             }
             
             try {
-                console.log("Initializing Firebase with config (Project ID):", firebaseConfig.projectId);
-
                 app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
@@ -446,7 +501,6 @@
                     ceremony: 'church',
                     reception: 'party-popper'
                 };
-                // El icono usa church para ceremonia, party-popper para fiesta y map-pin por defecto
                 const icon = iconMap[loc.id] || 'map-pin';
                 
                 const html = `
@@ -464,7 +518,12 @@
                 `;
                 container.innerHTML += html;
             });
-            lucide.createIcons(); // Crear los nuevos iconos
+            lucide.createIcons();
+        }
+
+        // --- RENDERIZADO DE VESTIMENTA ---
+        function renderDressCode() {
+            document.getElementById('dress-code').textContent = EVENT_DETAILS.dressCode;
         }
 
 
@@ -796,7 +855,10 @@
 
         // --- LISTENERS ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Renderizar las ubicaciones al cargar
+            // Ya no inicializamos Tone.js
+            
+            // Renderizar la vestimenta al cargar
+            renderDressCode();
             renderLocations();
             lucide.createIcons();
 
@@ -864,5 +926,6 @@
     </script>
 </body>
 </html>
+       
 
 
