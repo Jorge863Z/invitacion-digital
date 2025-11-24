@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Carga de Lucide Icons (Iconos) -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- La librería Tone.js ha sido ELIMINADA -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
         
@@ -267,34 +268,41 @@
                 <h2 class="header-font text-3xl font-bold text-center mb-2 text-primary-color">Mesa de Regalos</h2>
                 <p class="text-center text-gray-500 text-sm mb-8 max-w-md mx-auto">Su presencia es nuestro mejor regalo, pero si deseas tener un detalle con nosotros, estas son las opciones.</p>
 
-                <div id="gift-actions" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div id="gift-actions" class="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch"> <!-- items-stretch para altura igual -->
+                    
                     <!-- Opción 1: Transferencia -->
-                    <div class="p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow text-center">
+                    <div class="p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col h-full">
                         <div class="bg-blue-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                             <i data-lucide="credit-card" class="w-6 h-6 text-blue-500"></i>
                         </div>
                         <h4 class="text-lg font-bold text-gray-800 mb-2">Transferencia</h4>
-                        <div class="text-sm text-gray-600 space-y-1 mb-4 bg-gray-50 p-3 rounded-lg text-left">
-                            <p><span class="font-semibold">Banco:</span> BBVA Bancomer</p>
-                            <p><span class="font-semibold">Cuenta:</span> 1234 5678 9012</p>
-                            <p><span class="font-semibold">CLABE:</span> 012345678901234567</p>
-                            <p><span class="font-semibold">Titular:</span> Juan y María</p>
+                        
+                        <!-- Contenido limpio y centrado -->
+                        <div class="text-sm text-gray-600 space-y-2 mb-6 flex-grow">
+                            <p><span class="font-semibold block text-gray-800">Banco</span> BBVA Bancomer</p>
+                            <p><span class="font-semibold block text-gray-800">Cuenta</span> 1234 5678 9012</p>
+                            <p><span class="font-semibold block text-gray-800">CLABE</span> 012345678901234567</p>
+                            <p><span class="font-semibold block text-gray-800">Titular</span> Juan y María</p>
                         </div>
-                        <button id="btn-transfer-gift" class="w-full btn-secondary py-2 px-4 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity">
+                        
+                        <button id="btn-transfer-gift" class="w-full btn-secondary py-3 px-4 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity mt-auto">
                             Seleccionar Opción
                         </button>
                     </div>
 
                     <!-- Opción 2: Regalo Físico -->
-                    <div class="p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow text-center">
+                    <div class="p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col h-full">
                         <div class="bg-purple-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                              <i data-lucide="gift" class="w-6 h-6 text-purple-500"></i>
                         </div>
                         <h4 class="text-lg font-bold text-gray-800 mb-2">Regalo Físico</h4>
-                        <p class="text-sm text-gray-600 mb-6 px-2">
-                            Contaremos con un buzón de sobres y mesa de regalos en la entrada de la recepción.
-                        </p>
-                        <button id="btn-physical-gift" class="w-full btn-secondary py-2 px-4 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity">
+                        
+                        <!-- Contenido limpio y centrado -->
+                        <div class="text-sm text-gray-600 mb-6 flex-grow flex items-center justify-center">
+                            <p>Contaremos con un buzón de sobres y mesa de regalos en la entrada de la recepción.</p>
+                        </div>
+                        
+                        <button id="btn-physical-gift" class="w-full btn-secondary py-3 px-4 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity mt-auto">
                             Seleccionar Opción
                         </button>
                     </div>
@@ -987,7 +995,6 @@
     </script>
 </body>
 </html>
-
 
 
 
