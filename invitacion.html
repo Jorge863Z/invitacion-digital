@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Carga de Lucide Icons (Iconos) -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- La librería Tone.js ha sido ELIMINADA -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
         
@@ -82,59 +83,65 @@
             line-height: 1.2;
         }
 
-        /* --- LIGHTBOX MEJORADO (CSS) --- */
+        /* --- LIGHTBOX MAXIMIZADO (CSS AJUSTADO) --- */
         #lightbox {
             display: none; /* Oculto por defecto */
             position: fixed;
-            z-index: 9999; /* Encima de todo */
+            z-index: 9999; /* Asegura que esté ENCIMA de todo */
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro */
+            background-color: rgba(0, 0, 0, 0.95); /* Fondo casi negro */
             justify-content: center;
             align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease; /* Transición suave */
+            backdrop-filter: blur(5px);
         }
         
         #lightbox.active {
             display: flex;
-            opacity: 1;
         }
 
         #lightbox-img {
-            max-width: 90%;
-            max-height: 90vh;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-        
-        #lightbox.active #lightbox-img {
-            transform: scale(1);
+            /* AJUSTE CLAVE: Usamos medidas relativas grandes para forzar el tamaño */
+            width: auto;
+            height: auto;
+            max-width: 98vw; /* 98% del ancho de la pantalla */
+            max-height: 95vh; /* 95% del alto de la pantalla */
+            min-width: 60vw; /* Forzar un ancho mínimo para que no se vea pequeña */
+            border-radius: 4px;
+            box-shadow: 0 0 40px rgba(0,0,0,1);
+            object-fit: contain; 
         }
 
         #lightbox-close {
             position: absolute;
             top: 20px;
             right: 30px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
+            color: #fff;
+            font-size: 4rem; /* X muy grande y visible */
+            font-weight: 300;
             cursor: pointer;
-            user-select: none;
+            z-index: 10000;
+            line-height: 0.8;
+            transition: transform 0.3s, color 0.3s;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
+
+        #lightbox-close:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
         }
 
         /* Cursor de mano en las fotos de la galería */
         .gallery-img {
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.3s, opacity 0.3s;
         }
         .gallery-img:hover {
-            transform: scale(1.02);
-            opacity: 0.9;
+            transform: scale(1.03);
+            opacity: 0.95;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -143,7 +150,7 @@
     <!-- Mensaje Toast (No usar alert()) -->
     <div id="toast-message" class="fixed top-5 z-50 p-4 rounded-lg shadow-xl text-white transition-opacity duration-300 opacity-0 hidden" role="alert"></div>
 
-    <!-- LIGHTBOX (Visor de Fotos Oculto) -->
+    <!-- LIGHTBOX (Visor de Fotos) -->
     <div id="lightbox">
         <span id="lightbox-close">&times;</span>
         <img id="lightbox-img" src="">
@@ -215,7 +222,7 @@
                 </div>
             </section>
 
-            <!-- SECCIÓN 5: FOTOS (Con clase gallery-img para el lightbox) -->
+            <!-- SECCIÓN 5: Galería de Fotos (Revertido a 4 columnas, pero con Lightbox Maximizado) -->
             <section class="space-y-4 pt-0 mt-[-24px]"> 
                 <h2 class="header-font text-3xl font-bold text-center text-primary-color">Nuestras Fotos</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -256,12 +263,11 @@
                 </div>
             </section>
 
-            <!-- SECCIÓN 8: REGALOS (SIMÉTRICO) -->
+            <!-- SECCIÓN 8: REGALOS -->
             <section class="card p-6 bg-gray-50">
                 <h2 class="header-font text-3xl font-bold text-center mb-2 text-primary-color">Mesa de Regalos</h2>
                 <p class="text-center text-gray-500 text-sm mb-8 max-w-md mx-auto">Su presencia es nuestro mejor regalo, pero si deseas tener un detalle con nosotros, estas son las opciones.</p>
                 <div id="gift-actions" class="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch"> 
-                    <!-- Opción 1 -->
                     <div class="p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col h-full">
                         <div class="bg-blue-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="credit-card" class="w-6 h-6 text-blue-500"></i></div>
                         <h4 class="text-lg font-bold text-gray-800 mb-2">Transferencia</h4>
@@ -273,7 +279,6 @@
                         </div>
                         <button id="btn-transfer-gift" class="w-full btn-secondary py-3 px-4 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity mt-auto">Seleccionar Opción</button>
                     </div>
-                    <!-- Opción 2 -->
                     <div class="p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col h-full">
                         <div class="bg-purple-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"><i data-lucide="gift" class="w-6 h-6 text-purple-500"></i></div>
                         <h4 class="text-lg font-bold text-gray-800 mb-2">Regalo Físico</h4>
@@ -285,12 +290,10 @@
             </section>
 
             <!-- SECCIÓN 9: AGRADECIMIENTO (FONDO ROJO VISIBLE) -->
-            <!-- Usamos style inline para forzar el color rojo (#A32D50) y texto blanco -->
             <section class="card p-8 text-center shadow-lg" style="background-color: var(--primary-color); color: white;">
                 <p class="header-font text-3xl font-bold mb-1">"Tu Presencia es Nuestro Mejor Regalo"</p>
                 <p class="text-lg">¡Gracias por ser parte de nuestra historia!</p>
             </section>
-            <!-- FIN SECCIÓN AGRADECIMIENTO -->
 
         </div>
         
