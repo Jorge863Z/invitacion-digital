@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Carga de Lucide Icons (Iconos) -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- La librería Tone.js ha sido ELIMINADA -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
         
@@ -69,18 +68,43 @@
             cursor: pointer;
         }
 
-        /* Nuevo estilo para la cuenta regresiva compacta */
+        /* Nuevo estilo para la cuenta regresiva compacta y elegante */
         .countdown-item {
-            padding: 0.5rem;
+            padding: 1rem;
             text-align: center;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             background-color: var(--secondary-color);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 80px;
         }
         .countdown-item p:first-child {
-            font-size: 1.5rem; /* 24px */
-            font-weight: 800; /* Extra bold */
-            line-height: 1.2;
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        .countdown-item p:last-child {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #666;
+            font-weight: 600;
+        }
+        
+        /* Ajuste específico para móvil */
+        @media (max-width: 640px) {
+            .countdown-item p:first-child {
+                font-size: 1.5rem;
+            }
+            .countdown-item {
+                padding: 0.5rem;
+                min-height: 65px;
+            }
         }
     </style>
 </head>
@@ -101,120 +125,137 @@
         <div id="guest-view" class="space-y-6">
             
             <!-- SECCIÓN 1: Bienvenida y Título del Evento -->
-            <section class="text-center py-10 bg-white card shadow-2xl">
-                <h1 class="header-font text-5xl md:text-7xl font-bold text-gray-800" id="event-title">
+            <section class="text-center py-12 bg-white card shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-2 bg-accent-color"></div>
+                
+                <h1 class="header-font text-4xl md:text-7xl font-bold text-gray-800 mb-2" id="event-title">
                     ¡Nuestro Gran Día!
                 </h1>
-                <p class="mt-4 text-xl text-gray-600">
+                <p class="mt-4 text-xl text-gray-600 font-light">
                     <span id="names-placeholder">Nombre Novio & Nombre Novia</span>
                 </p>
-                <p class="text-lg mt-2 text-gray-500">
+                <p class="text-lg mt-2 text-gray-500 italic">
                     Te esperamos para celebrar nuestro amor.
                 </p>
             </section>
 
-            <!-- SECCIÓN 2: Cuenta Regresiva (Diseño Compacto) -->
-            <section class="card text-center border-b-4 border-t-4 border-accent-color p-4">
-                <h2 class="text-xl font-semibold mb-3 text-primary-color flex items-center justify-center">
-                    <i data-lucide="clock" class="w-5 h-5 mr-2"></i> Cuenta Regresiva
+            <!-- SECCIÓN 2: Cuenta Regresiva (Diseño Mejorado con Meses en Móvil) -->
+            <section class="card text-center border-t-4 border-primary-color p-6">
+                <h2 class="text-xl font-semibold mb-6 text-primary-color flex items-center justify-center uppercase tracking-widest">
+                    <i data-lucide="clock" class="w-5 h-5 mr-2"></i> Falta poco para el gran día
                 </h2>
-                <div id="countdown" class="grid grid-cols-5 gap-2 text-primary-color font-mono">
+                <!-- Grid responsivo: Ajustado para mostrar meses en móvil -->
+                <div id="countdown" class="grid grid-cols-2 md:grid-cols-5 gap-3 text-primary-color font-mono">
                     <!-- Los divs de tiempo serán llenados por JavaScript -->
                 </div>
             </section>
 
-            <!-- SECCIÓN 3: REPRODUCTOR DE SPOTIFY (MOVIDO AQUÍ - ARRIBA) -->
+            <!-- SECCIÓN 3: REPRODUCTOR DE SPOTIFY -->
             <section class="card p-6">
                 <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Música del Evento</h2>
                 <div class="text-center">
-                    <p class="text-sm text-gray-600 mb-4">Toca el botón "Play" para escuchar nuestra canción.</p>
+                    <p class="text-sm text-gray-600 mb-4">Toca el botón "Play" para ambientar tu lectura.</p>
                     
                     <!-- INSTRUCCIÓN: REEMPLAZA TODO EL CÓDIGO DEL IFRAME DE ABAJO POR TU CÓDIGO DE SPOTIFY -->
                     <iframe 
                         style="border-radius:12px" 
-                        <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/2plbrEY59IikOBgBGLjaoe?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                        
+                        src="https://open.spotify.com/embed/track/2S5kI2Q1R0wEToqW6x7v5a?utm_source=generator&theme=0" 
+                        width="100%" 
+                        height="152" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy"
                     ></iframe>
                 </div>
             </section>
-            <!-- FIN SECCIÓN SPOTIFY -->
             
-            <!-- SECCIÓN 4: AGRADECIMIENTO (Fondo Dorado para contraste) -->
-            <section class="p-6 text-center rounded-xl shadow-lg" style="background-color: var(--accent-color); color: white;">
-                <p class="header-font text-2xl font-bold mb-1">Tu Presencia es Nuestro Mejor Regalo.</p>
-                <p class="text-sm font-medium">¡Gracias por ser parte de nuestra historia!</p>
+            <!-- SECCIÓN 4: AGRADECIMIENTO -->
+            <section class="p-8 text-center rounded-2xl shadow-lg transform hover:scale-[1.01] transition-transform duration-300" style="background: linear-gradient(135deg, var(--primary-color), #852243); color: white;">
+                <i data-lucide="heart" class="w-8 h-8 mx-auto mb-3 text-accent-color"></i>
+                <p class="header-font text-2xl md:text-3xl font-bold mb-2 leading-tight">"Tu Presencia es Nuestro Mejor Regalo"</p>
+                <p class="text-sm md:text-base font-light opacity-90 tracking-wide">¡Gracias por ser parte de nuestra historia!</p>
             </section>
-            <!-- FIN SECCIÓN AGRADECIMIENTO -->
 
             <!-- SECCIÓN 5: CÓDIGO DE VESTIMENTA -->
-            <section class="card p-6 bg-gray-50 border-t border-b border-primary-color">
-                <div class="grid grid-cols-1 gap-4">
-                    <div class="space-y-3 text-center">
-                        <h3 class="header-font text-2xl font-bold text-primary-color flex items-center justify-center">
-                            <i data-lucide="shirt" class="w-6 h-6 mr-2 text-accent-color"></i> Código de Vestimenta
-                        </h3>
-                        <div id="dress-code" class="text-lg font-bold text-gray-700 p-3 rounded-lg bg-white shadow-md mx-auto max-w-lg border border-gray-200">
+            <section class="card p-6 bg-gray-50 border-b-4 border-accent-color">
+                <div class="text-center space-y-4">
+                    <h3 class="header-font text-2xl font-bold text-primary-color flex items-center justify-center">
+                        <i data-lucide="shirt" class="w-6 h-6 mr-2 text-accent-color"></i> Código de Vestimenta
+                    </h3>
+                    <div class="inline-block relative">
+                         <div id="dress-code" class="text-lg font-bold text-gray-800 bg-white p-4 px-8 rounded-xl shadow-sm border border-gray-200 relative z-10">
                             <!-- Se llena con JS -->
                         </div>
+                        <div class="absolute top-2 left-2 w-full h-full bg-accent-color rounded-xl -z-0 opacity-20"></div>
                     </div>
                 </div>
             </section>
-            <!-- FIN SECCIÓN VESTIMENTA -->
 
-            <!-- SECCIÓN 6: Galería de Fotos (Mock) -->
-            <section class="space-y-4 pt-0 mt-[-24px]"> 
-                <h2 class="header-font text-3xl font-bold text-center text-primary-color">Nuestras Fotos</h2>
+            <!-- SECCIÓN 6: Galería de Fotos -->
+            <section class="space-y-4">
+                <h2 class="header-font text-3xl font-bold text-center text-primary-color mb-2">Nuestras Fotos</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <img src="fotoboda1.jpg" alt="Foto Boda 1" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
-                    <img src="fotoboda2.jpg" alt="Foto Boda 2" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
-                    <img src="fotoboda3.jpg" alt="Foto Boda 3" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
-                    <img src="fotoboda4.jpg" alt="Foto Boda 4" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
+                    <img src="fotoboda1.jpg" onerror="this.src='https://placehold.co/400x300/A32D50/F8F4E3?text=Foto+1'" alt="Foto 1" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square hover:opacity-90 transition-opacity">
+                    <img src="https://placehold.co/400x300/D9A440/333?text=Foto+2" alt="Foto 2" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                    <img src="https://placehold.co/400x300/852243/FFF?text=Foto+3" alt="Foto 3" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
+                    <img src="https://placehold.co/400x300/333/F8F4E3?text=Foto+4" alt="Foto 4" class="rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
                 </div>
             </section>
 
             <!-- SECCIÓN 7: UBICACIÓN DEL EVENTO -->
             <section class="card p-6">
-                <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Ubicación del Evento</h2>
+                <h2 class="header-font text-3xl font-bold text-center mb-8 text-primary-color">Ubicación del Evento</h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="location-container">
                     <!-- Ubicaciones generadas por JS -->
                 </div>
             </section>
-            <!-- FIN SECCIÓN UBICACIÓN -->
             
             <!-- SECCIÓN 8: Detalles del Invitado y RSVP -->
-            <section class="card p-6">
+            <section class="card p-8 border-2 border-primary-color border-opacity-10">
                 <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Tu Invitación</h2>
                 
-                <div id="guest-details-loading" class="text-center text-gray-500">Cargando detalles de tu invitación...</div>
+                <div id="guest-details-loading" class="text-center text-gray-500 py-4">Cargando detalles de tu invitación...</div>
 
-                <div id="guest-details" class="hidden space-y-4">
-                    <div class="text-center p-4 bg-secondary-color rounded-lg border border-accent-color">
-                        <p class="text-lg font-semibold text-gray-700">¡Hola, <span id="guest-name-display" class="text-primary-color font-bold">Invitado</span>!</p>
-                        <p class="text-md mt-2">Te esperamos en la **Mesa <span id="guest-table-display" class="font-bold text-primary-color">#</span>**.</p>
-                        <p class="text-md">Puedes confirmar la asistencia de hasta **<span id="guest-count-display" class="font-bold text-primary-color">1</span>** persona(s).</p>
+                <div id="guest-details" class="hidden space-y-6">
+                    <div class="text-center p-6 bg-secondary-color rounded-xl border border-accent-color bg-opacity-30">
+                        <p class="text-xl font-semibold text-gray-800 mb-2">¡Hola, <span id="guest-name-display" class="text-primary-color font-bold text-2xl block mt-1">Invitado</span>!</p>
+                        <div class="flex justify-center space-x-4 mt-4 text-sm text-gray-600">
+                            <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
+                                <span class="block font-bold text-primary-color text-lg" id="guest-table-display">#</span>
+                                <span>Mesa</span>
+                            </div>
+                            <div class="bg-white px-4 py-2 rounded-lg shadow-sm">
+                                <span class="block font-bold text-primary-color text-lg" id="guest-count-display">1</span>
+                                <span>Lugares</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <p id="rsvp-status-message" class="text-center text-xl font-bold mt-4"></p>
+                    <p id="rsvp-status-message" class="text-center text-xl font-bold mt-2"></p>
 
-                    <div id="rsvp-actions" class="mt-6 space-y-4">
-                        <h3 class="text-xl font-semibold mb-4 text-center">Confirma tu Asistencia</h3>
+                    <div id="rsvp-actions" class="mt-6 space-y-3">
+                        <h3 class="text-lg font-semibold mb-4 text-center text-gray-600 uppercase tracking-wider text-xs">Confirma tu asistencia antes del evento</h3>
                         
-                        <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
-                            <!-- Botón 1: Confirmo Asistencia (Firestore) -->
-                            <button id="btn-confirm-attendance" class="btn-primary w-full py-3 rounded-xl flex items-center justify-center font-bold">
-                                <i data-lucide="check-circle" class="w-5 h-5 mr-2"></i> Confirmo Asistencia
+                        <div class="grid grid-cols-1 gap-3">
+                            <button id="btn-confirm-attendance" class="btn-primary w-full py-4 rounded-xl flex items-center justify-center font-bold text-lg shadow-lg hover:shadow-xl transform transition hover:-translate-y-1">
+                                <i data-lucide="check-circle" class="w-6 h-6 mr-3"></i> ¡Sí, asistiré!
                             </button>
 
-                            <!-- Botón 2: No Asistiré (Firestore) -->
-                            <button id="btn-not-attending" class="btn-secondary w-full py-3 rounded-xl flex items-center justify-center font-bold">
-                                <i data-lucide="x-circle" class="w-5 h-5 mr-2"></i> No Asistiré
+                            <button id="btn-not-attending" class="bg-gray-200 text-gray-600 hover:bg-gray-300 w-full py-3 rounded-xl flex items-center justify-center font-medium transition-colors">
+                                <i data-lucide="x-circle" class="w-5 h-5 mr-2"></i> Lo siento, no podré asistir
                             </button>
                         </div>
                         
-                        <!-- Botón 3: WhatsApp (Muestra modal) -->
-                        <button id="btn-whatsapp-prompt" class="bg-green-500 hover:bg-green-600 text-white w-full py-3 rounded-xl flex items-center justify-center font-bold transition-colors">
-                            <i data-lucide="send" class="w-5 h-5 mr-2"></i> Enviar WhatsApp al Anfitrión
+                        <div class="relative flex py-2 items-center">
+                            <div class="flex-grow border-t border-gray-300"></div>
+                            <span class="flex-shrink-0 mx-4 text-gray-400 text-xs uppercase">O contáctanos</span>
+                            <div class="flex-grow border-t border-gray-300"></div>
+                        </div>
+
+                        <button id="btn-whatsapp-prompt" class="bg-green-500 hover:bg-green-600 text-white w-full py-3 rounded-xl flex items-center justify-center font-bold transition-colors shadow-md">
+                            <i data-lucide="message-circle" class="w-5 h-5 mr-2"></i> Enviar WhatsApp
                         </button>
 
                     </div>
@@ -222,33 +263,44 @@
             </section>
 
             <!-- SECCIÓN 9: Regalos (Mesa de Regalos) -->
-            <section class="card p-6">
-                <h2 class="header-font text-3xl font-bold text-center mb-6 text-primary-color">Mesa de Regalos</h2>
-                
-                <p class="text-center text-gray-600 mb-6">Tu presencia es nuestro mejor regalo, pero si deseas hacernos un obsequio, aquí están las opciones.</p>
+            <section class="card p-6 bg-gray-50">
+                <h2 class="header-font text-3xl font-bold text-center mb-2 text-primary-color">Mesa de Regalos</h2>
+                <p class="text-center text-gray-500 text-sm mb-8 max-w-md mx-auto">Su presencia es nuestro mejor regalo, pero si deseas tener un detalle con nosotros, estas son las opciones.</p>
 
-                <div id="gift-actions" class="space-y-4">
+                <div id="gift-actions" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- Opción 1: Transferencia -->
-                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                        <p class="text-lg font-semibold text-primary-color">Transferencia Bancaria (Opción Digital)</p>
-                        <p class="text-sm mt-1">**Banco:** BANCOMER</p>
-                        <p class="text-sm">**Clabe:** 012345678901234567</p>
-                        <p class="text-sm">**Titular:** [Nombre de los Novios]</p>
-                        <button id="btn-transfer-gift" class="btn-primary mt-3 py-2 px-4 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">
-                            <i data-lucide="credit-card" class="w-4 h-4 mr-1 inline-block"></i> Deseo Transferir mi Regalo
+                    <div class="p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow text-center">
+                        <div class="bg-blue-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i data-lucide="credit-card" class="w-6 h-6 text-blue-500"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-800 mb-2">Transferencia</h4>
+                        <div class="text-sm text-gray-600 space-y-1 mb-4 bg-gray-50 p-3 rounded-lg text-left">
+                            <p><span class="font-semibold">Banco:</span> BBVA Bancomer</p>
+                            <p><span class="font-semibold">Cuenta:</span> 1234 5678 9012</p>
+                            <p><span class="font-semibold">CLABE:</span> 012345678901234567</p>
+                            <p><span class="font-semibold">Titular:</span> Juan y María</p>
+                        </div>
+                        <button id="btn-transfer-gift" class="w-full btn-secondary py-2 px-4 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity">
+                            Seleccionar Opción
                         </button>
                     </div>
 
                     <!-- Opción 2: Regalo Físico -->
-                    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-                        <p class="text-lg font-semibold text-primary-color">Regalo Físico</p>
-                        <p class="text-sm mt-1">Tendremos un buzón en la entrada del evento.</p>
-                        <button id="btn-physical-gift" class="btn-secondary mt-3 py-2 px-4 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">
-                            <i data-lucide="package" class="w-4 h-4 mr-1 inline-block"></i> Regalo Físico
+                    <div class="p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow text-center">
+                        <div class="bg-purple-50 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                             <i data-lucide="gift" class="w-6 h-6 text-purple-500"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-800 mb-2">Regalo Físico</h4>
+                        <p class="text-sm text-gray-600 mb-6 px-2">
+                            Contaremos con un buzón de sobres y mesa de regalos en la entrada de la recepción.
+                        </p>
+                        <button id="btn-physical-gift" class="w-full btn-secondary py-2 px-4 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity">
+                            Seleccionar Opción
                         </button>
                     </div>
-                    <p id="gift-status-message" class="text-center text-md font-bold mt-4"></p>
+                    
                 </div>
+                <p id="gift-status-message" class="text-center text-md font-bold mt-6 text-primary-color"></p>
             </section>
         </div>
         
@@ -293,7 +345,7 @@
     <!-- Modal para Teléfono/WhatsApp -->
     <div id="whatsapp-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
         <div class="card w-full max-w-sm p-6 space-y-4">
-            <h3 class="text-xl font-bold text-primary-color">937 170 9943</h3>
+            <h3 class="text-xl font-bold text-primary-color">Ingresa tu Teléfono</h3>
             <p class="text-sm text-gray-600">Opcional: Esto nos ayuda a contactarte en caso de emergencia. Si confirmas, también te llevaremos a WhatsApp para que envíes el mensaje de confirmación.</p>
             <input type="tel" id="input-phone-number" placeholder="Ej: 521XXXXXXXXX (Código de país + número)" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-primary-color focus:border-primary-color">
             <div class="flex justify-end space-x-3">
@@ -844,18 +896,23 @@
             
             // Adaptar a móvil (usar 3 columnas: Días totales, Horas, Minutos, Segundos)
             if (window.innerWidth < 640) {
-                 const totalDays = days + (months * 30);
+                 // Diseño de 2 filas para móvil para incluir MESES
+                 // Fila 1: Meses y Días
+                 // Fila 2: Horas, Minutos y Segundos
                  countdownEl.innerHTML = `
-                    <div class="countdown-item col-span-2"><p>${totalDays}</p><p class="text-xs uppercase mt-1">Días</p></div>
-                    <div class="countdown-item"><p>${hours}</p><p class="text-xs uppercase mt-1">Hrs</p></div>
-                    <div class="countdown-item"><p>${minutes}</p><p class="text-xs uppercase mt-1">Min</p></div>
-                    <div class="countdown-item hidden sm:block"><p>${seconds}</p><p class="text-xs uppercase mt-1">Seg</p></div>
+                    <div class="countdown-item col-span-3"><p>${months}</p><p class="text-xs uppercase mt-1">Meses</p></div>
+                    <div class="countdown-item col-span-3"><p>${days}</p><p class="text-xs uppercase mt-1">Días</p></div>
+                    
+                    <div class="countdown-item col-span-2"><p>${hours}</p><p class="text-xs uppercase mt-1">Hrs</p></div>
+                    <div class="countdown-item col-span-2"><p>${minutes}</p><p class="text-xs uppercase mt-1">Min</p></div>
+                    <div class="countdown-item col-span-2"><p>${seconds}</p><p class="text-xs uppercase mt-1">Seg</p></div>
                 `;
-                 countdownEl.classList.replace('grid-cols-5', 'grid-cols-4');
-                 countdownEl.classList.add('grid-cols-4'); // Asegurar 4 columnas para móvil
+                 countdownEl.classList.remove('grid-cols-5');
+                 countdownEl.classList.add('grid-cols-6'); // Usamos una rejilla de 6 para dividir en 3 y 3 (fila 1) y 2,2,2 (fila 2)
             } else {
                  countdownEl.innerHTML = displayHtml;
-                 countdownEl.classList.replace('grid-cols-4', 'grid-cols-5');
+                 countdownEl.classList.remove('grid-cols-6');
+                 countdownEl.classList.add('grid-cols-5');
             }
         }
 
@@ -930,7 +987,6 @@
     </script>
 </body>
 </html>
-
 
 
 
