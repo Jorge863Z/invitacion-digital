@@ -170,13 +170,13 @@
             <!-- SECCIÓN 1: Bienvenida y Título del Evento -->
             <section class="text-center py-10 bg-white card shadow-2xl">
                 <h1 class="header-font text-5xl md:text-7xl font-bold text-gray-800" id="event-title">
-                    ¡Nuestro Gran Día!
+                    ¡MIS XV!
                 </h1>
                 <p class="mt-4 text-xl text-gray-600">
-                    <span id="names-placeholder">Nombre Novio & Nombre Novia</span>
+                    <span id="names-placeholder">Chintia Yamilet</span>
                 </p>
                 <p class="text-lg mt-2 text-gray-500">
-                    Te esperamos para celebrar nuestro amor.
+                    Te esperamos para celebrar mis xv años.
                 </p>
             </section>
 
@@ -197,13 +197,8 @@
                     <p class="text-sm text-gray-600 mb-4">Toca el botón "Play" para ambientar tu lectura.</p>
                     <iframe 
                         style="border-radius:12px" 
-                        src="https://open.spotify.com/embed/track/2S5kI2Q1R0wEToqW6x7v5a?utm_source=generator&theme=0" 
-                        width="100%" 
-                        height="152" 
-                        frameBorder="0" 
-                        allowfullscreen="" 
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                        loading="lazy"
+                        src="<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/2plbrEY59IikOBgBGLjaoe?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>" 
+                        
                     ></iframe>
                 </div>
             </section>
@@ -226,10 +221,10 @@
             <section class="space-y-4 pt-0 mt-[-24px]"> 
                 <h2 class="header-font text-3xl font-bold text-center text-primary-color">Nuestras Fotos</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <img src="fotoboda1.jpg" onerror="this.src='https://placehold.co/400x300/A32D50/F8F4E3?text=Foto+1'" alt="Foto 1" class="gallery-img rounded-lg shadow-md w-full h-auto object-cover aspect-square">
-                    <img src="https://placehold.co/400x300/D9A440/333?text=Foto+2" alt="Foto 2" class="gallery-img rounded-lg shadow-md w-full h-auto object-cover aspect-square">
-                    <img src="https://placehold.co/400x300/852243/FFF?text=Foto+3" alt="Foto 3" class="gallery-img rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
-                    <img src="https://placehold.co/400x300/333/F8F4E3?text=Foto+4" alt="Foto 4" class="gallery-img rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
+                    <img src="fotoboda1.jpg" alt="Foto 1" class="gallery-img rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                    <img src="fotoboda2.jpg" alt="Foto 2" class="gallery-img rounded-lg shadow-md w-full h-auto object-cover aspect-square">
+                    <img src="fotoboda3.jpg" alt="Foto 3" class="gallery-img rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
+                    <img src="fotoboda4.jpg" alt="Foto 4" class="gallery-img rounded-lg shadow-md w-full h-auto object-cover aspect-square hidden md:block">
                 </div>
             </section>
 
@@ -275,7 +270,7 @@
                             <p><span class="font-semibold block text-gray-800">Banco</span> BBVA Bancomer</p>
                             <p><span class="font-semibold block text-gray-800">Cuenta</span> 1234 5678 9012</p>
                             <p><span class="font-semibold block text-gray-800">CLABE</span> 012345678901234567</p>
-                            <p><span class="font-semibold block text-gray-800">Titular</span> Juan y María</p>
+                            <p><span class="font-semibold block text-gray-800">Titular</span> Cinthia Yamilet</p>
                         </div>
                         <button id="btn-transfer-gift" class="w-full btn-secondary py-3 px-4 rounded-lg text-sm font-bold hover:opacity-90 transition-opacity mt-auto">Seleccionar Opción</button>
                     </div>
@@ -292,7 +287,7 @@
             <!-- SECCIÓN 9: AGRADECIMIENTO (FONDO ROJO VISIBLE) -->
             <section class="card p-8 text-center shadow-lg" style="background-color: var(--primary-color); color: white;">
                 <p class="header-font text-3xl font-bold mb-1">"Tu Presencia es Nuestro Mejor Regalo"</p>
-                <p class="text-lg">¡Gracias por ser parte de nuestra historia!</p>
+                <p class="text-lg">¡Gracias por ser parte de este momento lleno de felicidad!</p>
             </section>
 
         </div>
@@ -381,25 +376,25 @@
 
 
         // --- CONSTANTES ---
-        const EVENT_DATE = new Date("December 31, 2025 20:00:00").getTime(); 
+        const EVENT_DATE = new Date("Enero 20, 2026 20:00:00").getTime(); 
         const ADMIN_PASSCODE = "12345"; 
-        const HOST_PHONE_NUMBER = "5215512345678"; 
+        const HOST_PHONE_NUMBER = "9371709943"; 
         const GITHUB_PAGES_BASE_URL = "https://jorge863z.github.io/invitacion-digital/";
         
         const LOCATIONS = [
             {
                 id: 'ceremony',
                 title: 'Ceremonia (Templo)',
-                address: 'Parroquia de San Miguel Arcángel, Col. Centro, CDMX',
-                time: '16:00 hrs',
-                mapLink: 'https://maps.app.goo.gl/EJXJj8UfK8zN15x88'
+                address: 'Parroquia de San Antonio, Plaza Hidalgo, H.Cardenas Tabasco',
+                time: '18:00 hrs', 
+                mapLink: 'https://maps.app.goo.gl/GkgbezfSrMh83Q3D6'
             },
             {
                 id: 'reception',
                 title: 'Recepción y Fiesta',
-                address: 'Salón de Eventos Esmeralda, Av. 5, Col. Juárez, CDMX',
-                time: '19:00 hrs',
-                mapLink: 'https://maps.app.goo.gl/L9F9w2QvQ3Q5e9k77'
+                address: 'Salon de los Petroleros, Jacinto López, Centro, 86500 Cárdenas, Tab.',
+                time: '20:00 hrs',
+                mapLink: 'https://maps.app.goo.gl/t1NqNLb7vWUkgtQL8'
             }
         ];
         
@@ -747,3 +742,4 @@
     </script>
 </body>
 </html>
+
